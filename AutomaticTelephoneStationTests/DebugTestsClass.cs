@@ -15,7 +15,9 @@ namespace AutomaticTelephoneStationTests
         [TestMethod]
         public void DebugTest()
         {
-            var subscriber = new Subscriber
+            var station = new Station();
+
+            var subscriberFirst = new Subscriber
             (
                 "Nikita", 
                 "Brosko", 
@@ -26,13 +28,39 @@ namespace AutomaticTelephoneStationTests
                     new PhoneNumber("6694581")
                 )
             );
+            subscriberFirst.Port.OutgoingCall += station.OnPhoneStartingCall;
+            subscriberFirst.Port.CallChangeState += station.OnCallChangeState;
+            subscriberFirst.Phone.ConnectToPort();
 
-            var station = new Station();
+            var subscriberSecond = new Subscriber
+            (
+                "Matvey",
+                "Vanyukevich",
+                new Port(),
+                new Phone
+                (
+                    new LowTariffPlan(),
+                    new PhoneNumber("3137656")
+                )
+            );
+            subscriberSecond.Port.OutgoingCall += station.OnPhoneStartingCall;
+            subscriberSecond.Port.CallChangeState += station.OnCallChangeState;
+            subscriberSecond.Phone.ConnectToPort();
 
-            subscriber.Port.StartCall += station.OnPhoneStartingCall;
+            station.PortController.AddPort(subscriberFirst.Port);
+            station.PortController.AddPort(subscriberSecond.Port);
 
-            subscriber.Phone.ConnectToPort();
-            subscriber.Phone.Call(new PhoneNumber("1234567"));
+            subscriberFirst.Phone.Call(new PhoneNumber("3137656"));
+
+            if (subscriberSecond.Phone.PhoneCallState is PhoneCallState.StartCalling)
+            {
+                subscriberSecond.Phone.AcceptCall();
+            }
+
+            if (subscriberSecond.Phone.PhoneCallState is PhoneCallState.InProgress)
+            {
+                subscriberSecond.Phone.RejectCall();
+            }
         }
     }
 }
