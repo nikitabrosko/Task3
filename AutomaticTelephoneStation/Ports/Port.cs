@@ -9,9 +9,12 @@ namespace AutomaticTelephoneStation.Ports
 
         public PortState State { get; private set; }
 
+        public ConnectionState ConnectionState { get; private set; }
+
         public Port()
         {
             State = PortState.Free;
+            ConnectionState = ConnectionState.Disconnected;
         }
 
         public void OnPhoneStartingCall(object sender, StartingCallEventArgs args)
@@ -22,6 +25,11 @@ namespace AutomaticTelephoneStation.Ports
 
                 OnStartingCall(this, new StartingCallEventArgs(args.SourcePhoneNumber, args.TargetPhoneNumber));
             }
+        }
+
+        public void OnConnectionChange(object sender, ConnectionStateEventArgs args)
+        {
+            ConnectionState = args.ConnectionState;
         }
 
         protected virtual void OnStartingCall(object senderPhone, StartingCallEventArgs args)

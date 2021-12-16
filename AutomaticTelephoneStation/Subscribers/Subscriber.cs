@@ -1,6 +1,7 @@
 ﻿using System;
 using AutomaticTelephoneStation.PhoneNumbers;
 using AutomaticTelephoneStation.Phones;
+using AutomaticTelephoneStation.Ports;
 using AutomaticTelephoneStation.TariffPlans;
 
 namespace AutomaticTelephoneStation.Subscribers
@@ -12,13 +13,19 @@ namespace AutomaticTelephoneStation.Subscribers
 
         public string LastName { get; }
 
+        public IPort Port { get; }
+
         public IPhone Phone { get; }
 
-        public Subscriber(string firstName, string lastName, IPhone phone)
+        public Subscriber(string firstName, string lastName, IPort port, IPhone phone)
         {
             FirstName = firstName;
             LastName = lastName;
+            Port = port;
             Phone = phone;
+
+            Phone.StartCall += Port.OnPhoneStartingCall;
+            Phone.ChangeConnection += Port.OnConnectionChange;
         }
     }
 }
