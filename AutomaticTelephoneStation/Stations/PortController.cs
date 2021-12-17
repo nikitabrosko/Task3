@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using AutomaticTelephoneStation.Ports;
 
@@ -12,6 +13,11 @@ namespace AutomaticTelephoneStation.Stations
 
         public void AddPort(IPort port)
         {
+            if (port is null)
+            {
+                throw new ArgumentNullException(nameof(port));
+            }
+
             _ports.Add(port);
         }
     }
