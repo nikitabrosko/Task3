@@ -10,6 +10,7 @@ namespace AutomaticTelephoneStation.Ports
         public event EventHandler<StartingCallEventArgs> OutgoingCall;
         public event EventHandler<StationCallingEventArgs> IncomingCall;
         public event EventHandler<StationCallingEventArgs> CallChangeState;
+        public event EventHandler<ResponseCallEventArgs> ResponseFromStation;
 
         public PortState State { get; private set; }
 
@@ -32,6 +33,7 @@ namespace AutomaticTelephoneStation.Ports
             Phone.ChangeConnection += OnConnectionChange;
             Phone.CallChangeState += OnCallChangeStateFromPhone;
             IncomingCall += Phone.OnIncomingCall;
+            ResponseFromStation += Phone.OnResponseFromStation;
         }
 
         public void OnPhoneStartingCall(object sender, StartingCallEventArgs args)
@@ -42,8 +44,6 @@ namespace AutomaticTelephoneStation.Ports
 
                 OnOutgoingCall(this, new StartingCallEventArgs(args.SourcePhoneNumber, args.TargetPhoneNumber));
             }
-
-            State = PortState.Free;
         }
 
         public void OnPhoneCallingByStation(object sender, StationCallingEventArgs args)
@@ -53,8 +53,16 @@ namespace AutomaticTelephoneStation.Ports
                 State = PortState.Busy;
                 OnIncomingCall(this, args);
             }
+        }
 
-            State = PortState.Free;
+        public void OnResponseFromCall(object sender, ResponseCallEventArgs args)
+        {
+            if (args.CallState is Calls.CallState.IsEnd)
+            {
+                State = PortState.Free;
+            }
+
+            OnResponseFromStation(sender, args);
         }
 
         public void OnConnectionChange(object sender, ConnectionStateEventArgs args)
@@ -64,6 +72,11 @@ namespace AutomaticTelephoneStation.Ports
 
         public void OnCallChangeStateFromPhone(object sender, StationCallingEventArgs args)
         {
+            if (args.Call.CallState is Calls.CallState.IsEnd)
+            {
+                State = PortState.Free;
+            }
+
             OnCallChangeState(sender, args);
         }
 
@@ -80,6 +93,11 @@ namespace AutomaticTelephoneStation.Ports
         protected virtual void OnCallChangeState(object sender, StationCallingEventArgs args)
         {
             CallChangeState?.Invoke(sender, args);
+        }
+
+        protected virtual void OnResponseFromStation(object sender, ResponseCallEventArgs args)
+        {
+            ResponseFromStation?.Invoke(sender, args);
         }
     }
 }

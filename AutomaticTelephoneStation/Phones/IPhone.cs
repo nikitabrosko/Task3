@@ -19,6 +19,7 @@ namespace AutomaticTelephoneStation.Phones
         void ConnectToPort();
         void DisconnectFromPort();
         void OnIncomingCall(object sender, StationCallingEventArgs args);
+        void OnResponseFromStation(object sender, ResponseCallEventArgs args);
         void AcceptCall();
         void RejectCall();
     }

@@ -37,6 +37,8 @@ namespace AutomaticTelephoneStation.Phones
         {
             if (ConnectionState == ConnectionState.Connected)
             {
+                PhoneCallState = PhoneCallState.InProgress;
+
                 OnOutgoingCall(this, new StartingCallEventArgs(PhoneNumber, phoneNumber));
             }
         }
@@ -60,6 +62,19 @@ namespace AutomaticTelephoneStation.Phones
             PhoneCallState = PhoneCallState.StartCalling;
 
             _call = args.Call;
+        }
+
+        public void OnResponseFromStation(object sender, ResponseCallEventArgs args)
+        {
+            switch (args.CallState)
+            {
+                case CallState.InProgress:
+                    PhoneCallState = PhoneCallState.InProgress;
+                    break;
+                case CallState.IsEnd:
+                    PhoneCallState = PhoneCallState.Silence;
+                    break;
+            }
         }
 
         protected virtual void OnOutgoingCall(object sender, StartingCallEventArgs args)
