@@ -47,7 +47,7 @@ namespace AutomaticTelephoneStationTests.PortsTests
 
             portObject.OnPhoneCallingByStation(stationObject, stationCallingEventArgsObject);
 
-            Assert.IsTrue(portObject.State is PortState.Free);
+            Assert.IsTrue(portObject.State is PortState.Busy);
         }
 
         [TestMethod]
@@ -64,7 +64,7 @@ namespace AutomaticTelephoneStationTests.PortsTests
 
             portObject.OnPhoneStartingCall(stationObject, stationCallingEventArgsObject);
 
-            Assert.IsTrue(portObject.State is PortState.Free);
+            Assert.IsTrue(portObject.State is PortState.Busy);
         }
 
         [TestMethod]
