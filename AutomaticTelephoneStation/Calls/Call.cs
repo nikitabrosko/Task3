@@ -1,17 +1,20 @@
-﻿using AutomaticTelephoneStation.PhoneNumbers;
+﻿using System.Diagnostics;
+using AutomaticTelephoneStation.PhoneNumbers;
 using AutomaticTelephoneStation.Subscribers;
 
 namespace AutomaticTelephoneStation.Calls
 {
     public class Call : ICall
     {
+        private Stopwatch _stopwatch;
+
         public IPhoneNumber Caller { get; }
 
         public IPhoneNumber Receiver { get; }
 
         public CallState CallState { get; set; }
 
-        public int Duration { get; }
+        public int Duration { get; private set; }
 
         public Call(IPhoneNumber caller, IPhoneNumber receiver)
         {
@@ -23,12 +26,14 @@ namespace AutomaticTelephoneStation.Calls
 
         public void StartStopwatch()
         {
-
+            _stopwatch = new Stopwatch();
+            _stopwatch.Start();
         }
 
         public void StopStopwatch()
         {
-
+            _stopwatch.Stop();
+            Duration = ((int)_stopwatch.Elapsed.TotalSeconds);
         }
     }
 }
