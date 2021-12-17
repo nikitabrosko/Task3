@@ -4,7 +4,7 @@ namespace AutomaticTelephoneStation.EventArgs
 {
     public class ConnectionStateEventArgs
     {
-        public ConnectionState ConnectionState { get; }
+        public ConnectionState ConnectionState { get; set; }
 
         public ConnectionStateEventArgs(ConnectionState connectionState)
         {
