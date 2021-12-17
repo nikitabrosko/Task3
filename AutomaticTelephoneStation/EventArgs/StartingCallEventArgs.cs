@@ -1,6 +1,6 @@
 ﻿using AutomaticTelephoneStation.PhoneNumbers;
 
-namespace AutomaticTelephoneStation.Phones
+namespace AutomaticTelephoneStation.EventArgs
 {
     public class StartingCallEventArgs
     {
