@@ -9,10 +9,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AutomaticTelephoneStationTests
 {
-    [TestClass]
     public class DebugTestsClass
     {
-        [TestMethod]
         public void DebugTest()
         {
             var station = new Station();
@@ -20,13 +18,12 @@ namespace AutomaticTelephoneStationTests
             var subscriberFirst = new Subscriber
             (
                 "Nikita", 
-                "Brosko", 
-                new Port(), 
-                new Phone
+                "Brosko",
+                new Port(new Phone
                 (
-                    new MediumTariffPlan(), 
+                    new MediumTariffPlan(),
                     new PhoneNumber("6694581")
-                )
+                ))
             );
             subscriberFirst.Port.OutgoingCall += station.OnPhoneStartingCall;
             subscriberFirst.Port.CallChangeState += station.OnCallChangeState;
@@ -36,12 +33,11 @@ namespace AutomaticTelephoneStationTests
             (
                 "Matvey",
                 "Vanyukevich",
-                new Port(),
-                new Phone
+                new Port(new Phone
                 (
                     new LowTariffPlan(),
                     new PhoneNumber("3137656")
-                )
+                ))
             );
             subscriberSecond.Port.OutgoingCall += station.OnPhoneStartingCall;
             subscriberSecond.Port.CallChangeState += station.OnCallChangeState;
