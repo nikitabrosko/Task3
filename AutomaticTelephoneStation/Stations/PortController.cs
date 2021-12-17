@@ -4,7 +4,7 @@ using AutomaticTelephoneStation.Ports;
 
 namespace AutomaticTelephoneStation.Stations
 {
-    public class PortController
+    public class PortController : IPortController
     {
         private readonly IList<IPort> _ports = new List<IPort>();
 
