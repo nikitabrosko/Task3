@@ -19,9 +19,19 @@ namespace AutomaticTelephoneStation.Ports
 
         public Port(IPhone phone)
         {
+            if (phone is null)
+            {
+                throw new ArgumentNullException(nameof(phone));
+            }
+
             Phone = phone;
             State = PortState.Free;
             ConnectionState = ConnectionState.Disconnected;
+
+            Phone.OutgoingCall += OnPhoneStartingCall;
+            Phone.ChangeConnection += OnConnectionChange;
+            Phone.CallChangeState += OnCallChangeStateFromPhone;
+            IncomingCall += Phone.OnIncomingCall;
         }
 
         public void OnPhoneStartingCall(object sender, StartingCallEventArgs args)

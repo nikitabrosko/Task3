@@ -23,11 +23,6 @@ namespace AutomaticTelephoneStation.Subscribers
             LastName = lastName;
             Port = port;
             Phone = port.Phone;
-
-            Phone.OutgoingCall += Port.OnPhoneStartingCall;
-            Phone.ChangeConnection += Port.OnConnectionChange;
-            Phone.CallChangeState += Port.OnCallChangeStateFromPhone;
-            Port.IncomingCall += Phone.OnIncomingCall;
         }
     }
 }
