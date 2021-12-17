@@ -15,8 +15,11 @@ namespace AutomaticTelephoneStation.Ports
 
         public ConnectionState ConnectionState { get; private set; }
 
-        public Port()
+        public IPhone Phone { get; }
+
+        public Port(IPhone phone)
         {
+            Phone = phone;
             State = PortState.Free;
             ConnectionState = ConnectionState.Disconnected;
         }

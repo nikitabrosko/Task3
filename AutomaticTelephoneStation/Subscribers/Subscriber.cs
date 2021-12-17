@@ -17,12 +17,12 @@ namespace AutomaticTelephoneStation.Subscribers
 
         public IPhone Phone { get; }
 
-        public Subscriber(string firstName, string lastName, IPort port, IPhone phone)
+        public Subscriber(string firstName, string lastName, IPort port)
         {
             FirstName = firstName;
             LastName = lastName;
             Port = port;
-            Phone = phone;
+            Phone = port.Phone;
 
             Phone.OutgoingCall += Port.OnPhoneStartingCall;
             Phone.ChangeConnection += Port.OnConnectionChange;
