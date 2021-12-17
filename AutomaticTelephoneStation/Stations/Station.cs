@@ -5,6 +5,7 @@ using AutomaticTelephoneStation.Ports;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 using AutomaticTelephoneStation.Calls;
+using AutomaticTelephoneStation.EventArgs;
 
 namespace AutomaticTelephoneStation.Stations
 {
@@ -46,7 +47,7 @@ namespace AutomaticTelephoneStation.Stations
             {
                 if (args.Call.CallState is CallState.IsEnd)
                 {
-                    
+                    // Billing system coming soon
                 }
 
                 _inProgressCalls.Remove(args.Call);

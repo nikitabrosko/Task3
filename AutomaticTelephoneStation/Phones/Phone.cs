@@ -1,5 +1,6 @@
 ﻿using System;
 using AutomaticTelephoneStation.Calls;
+using AutomaticTelephoneStation.EventArgs;
 using AutomaticTelephoneStation.PhoneNumbers;
 using AutomaticTelephoneStation.Ports;
 using AutomaticTelephoneStation.Subscribers;
