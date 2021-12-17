@@ -1,4 +1,5 @@
 ﻿using System;
+using AutomaticTelephoneStation.EventArgs;
 using AutomaticTelephoneStation.Phones;
 
 namespace AutomaticTelephoneStation.Ports
@@ -7,7 +8,7 @@ namespace AutomaticTelephoneStation.Ports
     {
         event EventHandler<StartingCallEventArgs> OutgoingCall;
         event EventHandler<StationCallingEventArgs> IncomingCall;
-        public event EventHandler<StationCallingEventArgs> CallChangeState;
+        event EventHandler<StationCallingEventArgs> CallChangeState;
         PortState State { get; }
         ConnectionState ConnectionState { get; }
         void OnPhoneStartingCall(object sender, StartingCallEventArgs args);
