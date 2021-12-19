@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using AutomaticTelephoneStation.Phones;
-using AutomaticTelephoneStation.Ports;
-using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 using AutomaticTelephoneStation.Calls;
 using AutomaticTelephoneStation.EventArgs;
@@ -14,6 +11,7 @@ namespace AutomaticTelephoneStation.Stations
     {
         public event EventHandler<ResponseCallEventArgs> ResponseFromCall;
 
+        private readonly string _currentOperatorCode;
         private readonly IList<ICall> _waitingCalls = new List<ICall>();
         private readonly IList<ICall> _inProgressCalls = new List<ICall>();
 
@@ -23,13 +21,20 @@ namespace AutomaticTelephoneStation.Stations
 
         public PortController PortController { get; }
 
-        public Station()
+        public Station(string countryCode, string operatorCode)
         {
+            _currentOperatorCode = string.Concat(countryCode, operatorCode);
+
             PortController = new PortController();
         }
 
         public void OnPhoneStartingCall(object sender, StartingCallEventArgs args)
         {
+            if (!args.TargetPhoneNumber.Number.StartsWith(_currentOperatorCode))
+            {
+                OnResponseFromCall(this, new ResponseCallEventArgs(CallState.IsEnd));
+            }
+
             var call = new Call(args.SourcePhoneNumber, args.TargetPhoneNumber);
 
             PortController.Ports
