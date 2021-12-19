@@ -1,4 +1,5 @@
 ﻿using AutomaticTelephoneStation.PhoneNumbers;
+using AutomaticTelephoneStation.PhoneNumbers.BelarusPhoneNumbers;
 using AutomaticTelephoneStation.Phones;
 using AutomaticTelephoneStation.Ports;
 using AutomaticTelephoneStation.Subscribers;
@@ -13,7 +14,7 @@ namespace AutomaticTelephoneStationTests.SubscribersTests
         [TestMethod]
         public void TestCreatingSubscriberClass()
         {
-            var phoneNumberObject = new PhoneNumber("1234567");
+            var phoneNumberObject = new TaskOperatorPhoneNumber("1234567");
             var tariffPlanObject = new LowTariffPlan();
             var phoneObject = new Phone(tariffPlanObject, phoneNumberObject);
             var portObject = new Port(phoneObject);

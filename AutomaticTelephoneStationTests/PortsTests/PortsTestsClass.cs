@@ -2,6 +2,7 @@
 using AutomaticTelephoneStation.Calls;
 using AutomaticTelephoneStation.EventArgs;
 using AutomaticTelephoneStation.PhoneNumbers;
+using AutomaticTelephoneStation.PhoneNumbers.BelarusPhoneNumbers;
 using AutomaticTelephoneStation.Phones;
 using AutomaticTelephoneStation.Ports;
 using AutomaticTelephoneStation.Stations;
@@ -16,7 +17,7 @@ namespace AutomaticTelephoneStationTests.PortsTests
         [TestMethod]
         public void TestCreatingPortClassWithValidParameters()
         {
-            var phoneObject = new Phone(new LowTariffPlan(), new PhoneNumber("1234567"));
+            var phoneObject = new Phone(new LowTariffPlan(), new TaskOperatorPhoneNumber("1234567"));
             var actualPortObject = new Port(phoneObject);
 
             Assert.IsTrue(actualPortObject.ConnectionState.Equals(ConnectionState.Disconnected) 
@@ -35,13 +36,13 @@ namespace AutomaticTelephoneStationTests.PortsTests
         [TestMethod]
         public void TestOnPhoneCallingByStationMethod()
         {
-            var stationObject = new Station();
+            var stationObject = new Station("+375", "77");
             var stationCallingEventArgsObject =
                 new StationCallingEventArgs(
                     new Call(
-                        new PhoneNumber("1234567"), 
-                        new PhoneNumber("7654321")));
-            var phoneObject = new Phone(new LowTariffPlan(), new PhoneNumber("1234567"));
+                        new TaskOperatorPhoneNumber("1234567"), 
+                        new TaskOperatorPhoneNumber("7654321")));
+            var phoneObject = new Phone(new LowTariffPlan(), new TaskOperatorPhoneNumber("1234567"));
             var portObject = new Port(phoneObject);
             portObject.Phone.ConnectToPort();
 
@@ -53,12 +54,12 @@ namespace AutomaticTelephoneStationTests.PortsTests
         [TestMethod]
         public void TestOnPhoneStartingCallMethod()
         {
-            var stationObject = new Station();
+            var stationObject = new Station("+375", "77");
             var stationCallingEventArgsObject =
                 new StartingCallEventArgs(
-                    new PhoneNumber("1234567"), 
-                    new PhoneNumber("7654321"));
-            var phoneObject = new Phone(new LowTariffPlan(), new PhoneNumber("1234567"));
+                    new TaskOperatorPhoneNumber("1234567"), 
+                    new TaskOperatorPhoneNumber("7654321"));
+            var phoneObject = new Phone(new LowTariffPlan(), new TaskOperatorPhoneNumber("1234567"));
             var portObject = new Port(phoneObject);
             portObject.Phone.ConnectToPort();
 
@@ -70,13 +71,12 @@ namespace AutomaticTelephoneStationTests.PortsTests
         [TestMethod]
         public void TestOnCallChangeStateMethod()
         {
-            var stationObject = new Station();
             var stationCallingEventArgsObject =
                 new StationCallingEventArgs(
                     new Call(
-                        new PhoneNumber("1234567"),
-                        new PhoneNumber("7654321")));
-            var phoneObject = new Phone(new LowTariffPlan(), new PhoneNumber("1234567"));
+                        new TaskOperatorPhoneNumber("1234567"),
+                        new TaskOperatorPhoneNumber("7654321")));
+            var phoneObject = new Phone(new LowTariffPlan(), new TaskOperatorPhoneNumber("1234567"));
             var portObject = new Port(phoneObject);
             portObject.Phone.ConnectToPort();
 

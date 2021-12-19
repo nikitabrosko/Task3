@@ -1,5 +1,6 @@
 ﻿using System;
 using AutomaticTelephoneStation.PhoneNumbers;
+using AutomaticTelephoneStation.PhoneNumbers.BelarusPhoneNumbers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AutomaticTelephoneStationTests.PhoneNumbersTests
@@ -12,7 +13,7 @@ namespace AutomaticTelephoneStationTests.PhoneNumbersTests
         {
             var number = "1234567";
 
-            var phoneNumberObject = new PhoneNumber(number);
+            var phoneNumberObject = new TaskOperatorPhoneNumber(number);
             var expectedPhoneNumber = string.Concat("+375", "77", number);
             var actualPhoneNumber = phoneNumberObject.Number;
 
@@ -25,7 +26,7 @@ namespace AutomaticTelephoneStationTests.PhoneNumbersTests
         [DataRow("123")]
         public void TestCreatingPhoneNumberWithInvalidParametersNumberLengthIsIncorrect(string number)
         {
-            Assert.ThrowsException<ArgumentException>(() => new PhoneNumber(number));
+            Assert.ThrowsException<ArgumentException>(() => new TaskOperatorPhoneNumber(number));
         }
     }
 }

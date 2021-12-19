@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using AutomaticTelephoneStation.Calls;
 using AutomaticTelephoneStation.PhoneNumbers;
+using AutomaticTelephoneStation.PhoneNumbers.BelarusPhoneNumbers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AutomaticTelephoneStationTests.CallsTests
@@ -11,12 +12,12 @@ namespace AutomaticTelephoneStationTests.CallsTests
         [TestMethod]
         public void TestCallClassCreatingWithValidParameters()
         {
-            var expectedCallerPhoneNumber = new PhoneNumber("1234567");
-            var expectedReceiverPhoneNumber = new PhoneNumber("7654321");
+            var expectedCallerPhoneNumber = new TaskOperatorPhoneNumber("1234567");
+            var expectedReceiverPhoneNumber = new TaskOperatorPhoneNumber("7654321");
             var expectedCallState = CallState.IsWaiting;
             var expectedDuration = 0;
 
-            var actualCallObject = new Call(new PhoneNumber("1234567"), new PhoneNumber("7654321"));
+            var actualCallObject = new Call(new TaskOperatorPhoneNumber("1234567"), new TaskOperatorPhoneNumber("7654321"));
 
             Assert.IsTrue(expectedCallerPhoneNumber.Number.Equals(actualCallObject.Caller.Number)
                           && expectedReceiverPhoneNumber.Number.Equals(actualCallObject.Receiver.Number)
@@ -27,7 +28,7 @@ namespace AutomaticTelephoneStationTests.CallsTests
         [TestMethod]
         public void TestStopwatchMethods()
         {
-            var callObject = new Call(new PhoneNumber("1234567"), new PhoneNumber("7654321"));
+            var callObject = new Call(new TaskOperatorPhoneNumber("1234567"), new TaskOperatorPhoneNumber("7654321"));
 
             var expectedDuration = 1;
 

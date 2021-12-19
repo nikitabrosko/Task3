@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using AutomaticTelephoneStation.PhoneNumbers;
+using AutomaticTelephoneStation.PhoneNumbers.BelarusPhoneNumbers;
 using AutomaticTelephoneStation.Phones;
 using AutomaticTelephoneStation.Ports;
 using AutomaticTelephoneStation.Stations;
@@ -15,7 +16,7 @@ namespace AutomaticTelephoneStationTests.PortControllersTests
         [TestMethod]
         public void PortControllerClassCreatingWithValidParameters()
         {
-            var phoneObject = new Phone(new LowTariffPlan(), new PhoneNumber("1234567"));
+            var phoneObject = new Phone(new LowTariffPlan(), new TaskOperatorPhoneNumber("1234567"));
             var portControllerObject = new PortController();
             portControllerObject.AddPort(new Port(phoneObject));
 
