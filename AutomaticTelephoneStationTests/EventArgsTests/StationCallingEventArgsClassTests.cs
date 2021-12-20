@@ -1,9 +1,8 @@
 ﻿using AutomaticTelephoneStation.Calls;
 using AutomaticTelephoneStation.EventArgs;
-using AutomaticTelephoneStation.PhoneNumbers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Linq;
-using AutomaticTelephoneStation.PhoneNumbers.BelarusPhoneNumbers;
+using AutomaticTelephoneStation.PhoneNumbers.OperatorCodes;
+using AutomaticTelephoneStation.PhoneNumbers.PhoneNumbers;
 
 namespace AutomaticTelephoneStationTests.EventArgsTests
 {
@@ -13,10 +12,12 @@ namespace AutomaticTelephoneStationTests.EventArgsTests
         [TestMethod]
         public void StationCallingEventArgsClassCreatingWithValidParameters()
         {
-            var stationCallingEventArgsObject = new StationCallingEventArgs(
-                new Call(new TaskOperatorPhoneNumber("1234567"), new TaskOperatorPhoneNumber("7654321")));
+            var stationCallingEventArgsObject = new StationCallingEventArgs(new Call(
+                    new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567"),
+                    new BelarusPhoneNumber(BelarusOperatorCode.Mts, "7654321")));
 
-            var expectedCall = new Call(new TaskOperatorPhoneNumber("1234567"), new TaskOperatorPhoneNumber("7654321"));
+            var expectedCall = new Call(new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567"),
+                new BelarusPhoneNumber(BelarusOperatorCode.Mts, "7654321"));
             var actualCall = stationCallingEventArgsObject.Call;
 
             Assert.IsTrue(expectedCall.Caller.Number.Equals(actualCall.Caller.Number) 

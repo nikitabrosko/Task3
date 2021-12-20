@@ -1,9 +1,12 @@
-﻿using AutomaticTelephoneStation.PhoneNumbers.BelarusPhoneNumbers;
+﻿using AutomaticTelephoneStation.PhoneNumbers;
+using AutomaticTelephoneStation.PhoneNumbers.OperatorCodes;
+using AutomaticTelephoneStation.PhoneNumbers.PhoneNumbers;
 using AutomaticTelephoneStation.Phones;
 using AutomaticTelephoneStation.Ports;
 using AutomaticTelephoneStation.Stations;
 using AutomaticTelephoneStation.TariffPlans;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace AutomaticTelephoneStationTests.PhoneTests
 {
@@ -14,7 +17,7 @@ namespace AutomaticTelephoneStationTests.PhoneTests
         public void TestCreatingPhoneClassWithValidParameters()
         {
             var lowTariffPlanObject = new LowTariffPlan();
-            var phoneNumberObject = new TaskOperatorPhoneNumber("1234567");
+            var phoneNumberObject = new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567");
             var phoneObject = new Phone(lowTariffPlanObject, phoneNumberObject);
 
             Assert.IsTrue(phoneObject.ConnectionState is ConnectionState.Disconnected
@@ -26,8 +29,9 @@ namespace AutomaticTelephoneStationTests.PhoneTests
         [TestMethod]
         public void TestConnectToPortMethod()
         {
-            var phoneObject = new Phone(new LowTariffPlan(), new TaskOperatorPhoneNumber("1234567"));
-            var portObject = new Port(phoneObject);
+            var mock = new Mock<IStation>();
+            var phoneObject = new Phone(new LowTariffPlan(), new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567"));
+            var portObject = new Port(phoneObject, mock.Object);
 
             portObject.Phone.ConnectToPort();
 
@@ -37,7 +41,7 @@ namespace AutomaticTelephoneStationTests.PhoneTests
         [TestMethod]
         public void TestDisconnectFromPortMethod()
         {
-            var phoneObject = new Phone(new LowTariffPlan(), new TaskOperatorPhoneNumber("1234567"));
+            var phoneObject = new Phone(new LowTariffPlan(), new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567"));
 
             phoneObject.ConnectToPort();
             phoneObject.DisconnectFromPort();
@@ -48,7 +52,7 @@ namespace AutomaticTelephoneStationTests.PhoneTests
         [TestMethod]
         public void TestCallMethod()
         {
-            var stationObject = new Station("+375", "77");
+            var stationObject = new Station(CountryCode.Belarus);
 
             var sourcePortObject = GetSourcePortObject(stationObject);
             var targetPortObject = GetTargetPortObject(stationObject);
@@ -61,7 +65,7 @@ namespace AutomaticTelephoneStationTests.PhoneTests
         [TestMethod]
         public void TestRejectCallMethod()
         {
-            var stationObject = new Station("+375", "77"); ;
+            var stationObject = new Station(CountryCode.Belarus);
 
             var sourcePortObject = GetSourcePortObject(stationObject);
             var targetPortObject = GetTargetPortObject(stationObject);
@@ -78,7 +82,7 @@ namespace AutomaticTelephoneStationTests.PhoneTests
         [TestMethod]
         public void TestRejectCallAfterAcceptMethod()
         {
-            var stationObject = new Station("+375", "77"); ;
+            var stationObject = new Station(CountryCode.Belarus);
 
             var sourcePortObject = GetSourcePortObject(stationObject);
             var targetPortObject = GetTargetPortObject(stationObject);
@@ -96,7 +100,7 @@ namespace AutomaticTelephoneStationTests.PhoneTests
         [TestMethod]
         public void TestAcceptCallMethod()
         {
-            var stationObject = new Station("+375", "77"); ;
+            var stationObject = new Station(CountryCode.Belarus);
 
             var sourcePortObject = GetSourcePortObject(stationObject);
             var targetPortObject = GetTargetPortObject(stationObject);
@@ -112,10 +116,12 @@ namespace AutomaticTelephoneStationTests.PhoneTests
 
         public static IPort GetSourcePortObject(IStation stationObject)
         {
-            var sourcePhoneNumberObject = new TaskOperatorPhoneNumber("1234567");
+            var mock = new Mock<IStation>();
+
+            var sourcePhoneNumberObject = new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567");
             var sourceTariffPlanObject = new LowTariffPlan();
             var sourcePhoneObject = new Phone(sourceTariffPlanObject, sourcePhoneNumberObject);
-            var sourcePortObject = new Port(sourcePhoneObject);
+            var sourcePortObject = new Port(sourcePhoneObject, mock.Object);
             sourcePortObject.Phone.ConnectToPort();
             sourcePortObject.OutgoingCall += stationObject.OnPhoneStartingCall;
             sourcePortObject.CallChangeState += stationObject.OnCallChangeState;
@@ -127,10 +133,12 @@ namespace AutomaticTelephoneStationTests.PhoneTests
 
         public static IPort GetTargetPortObject(IStation stationObject)
         {
-            var targetPhoneNumberObject = new TaskOperatorPhoneNumber("7654321");
+            var mock = new Mock<IStation>();
+
+            var targetPhoneNumberObject = new BelarusPhoneNumber(BelarusOperatorCode.Mts, "7654321");
             var targetTariffPlanObject = new LowTariffPlan();
             var targetPhoneObject = new Phone(targetTariffPlanObject, targetPhoneNumberObject);
-            var targetPortObject = new Port(targetPhoneObject);
+            var targetPortObject = new Port(targetPhoneObject, mock.Object);
             targetPortObject.Phone.ConnectToPort();
             targetPortObject.OutgoingCall += stationObject.OnPhoneStartingCall;
             targetPortObject.CallChangeState += stationObject.OnCallChangeState;

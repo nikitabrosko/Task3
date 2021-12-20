@@ -2,7 +2,8 @@
 using AutomaticTelephoneStation.Calls;
 using AutomaticTelephoneStation.EventArgs;
 using AutomaticTelephoneStation.PhoneNumbers;
-using AutomaticTelephoneStation.PhoneNumbers.BelarusPhoneNumbers;
+using AutomaticTelephoneStation.PhoneNumbers.OperatorCodes;
+using AutomaticTelephoneStation.PhoneNumbers.PhoneNumbers;
 using AutomaticTelephoneStation.Phones;
 using AutomaticTelephoneStation.Ports;
 using AutomaticTelephoneStation.Stations;
@@ -17,11 +18,18 @@ namespace AutomaticTelephoneStationTests.StationsTests
         [TestMethod]
         public void StationClassCreatingWithValidParameters()
         {
-            var stationObject = new Station("+375", "77");
-            stationObject.PortController.AddPort(new Port(new Phone(new LowTariffPlan(), new TaskOperatorPhoneNumber("1234567"))));
+            var stationObject = new Station(CountryCode.Belarus);
+            stationObject.PortController.AddPort(new Port(
+                new Phone(
+                    new LowTariffPlan(), 
+                    new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567")),
+                stationObject));
 
             var expectedPortController = new PortController();
-            expectedPortController.AddPort(new Port(new Phone(new LowTariffPlan(), new TaskOperatorPhoneNumber("1234567"))));
+            expectedPortController.AddPort(new Port(
+                new Phone(
+                    new LowTariffPlan(), new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567")),
+                stationObject));
             var actualPortController = stationObject.PortController;
 
             Assert.IsTrue(expectedPortController.Ports.First().ConnectionState
@@ -33,19 +41,21 @@ namespace AutomaticTelephoneStationTests.StationsTests
         [TestMethod]
         public void OnPhoneStartingCallMethodTests()
         {
-            var stationObject = new Station("+375", "77");
-            var callingPhone = new Phone(new LowTariffPlan(), new TaskOperatorPhoneNumber("1234567"));
-            var targetPhone = new Phone(new LowTariffPlan(), new TaskOperatorPhoneNumber("7654321"));
-            var callingPortObject = new Port(callingPhone);
-            var targetPortObject = new Port(targetPhone);
+            var stationObject = new Station(CountryCode.Belarus);
+            var callingPhone = new Phone(new LowTariffPlan(), new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567"));
+            var targetPhone = new Phone(new LowTariffPlan(), new BelarusPhoneNumber(BelarusOperatorCode.Mts, "7654321"));
+            var callingPortObject = new Port(callingPhone, stationObject);
+            var targetPortObject = new Port(targetPhone, stationObject);
             stationObject.PortController.AddPort(callingPortObject);
             stationObject.PortController.AddPort(targetPortObject);
             var startingCallEventArgs = new StartingCallEventArgs(
-                new TaskOperatorPhoneNumber("1234567"), 
-                new TaskOperatorPhoneNumber("7654321"));
+                new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567"),
+                new BelarusPhoneNumber(BelarusOperatorCode.Mts, "7654321"));
 
             stationObject.OnPhoneStartingCall(callingPortObject, startingCallEventArgs);
-            var expectedCall = new Call(new TaskOperatorPhoneNumber("1234567"), new TaskOperatorPhoneNumber("7654321"));
+            var expectedCall = new Call(
+                new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567"),
+                new BelarusPhoneNumber(BelarusOperatorCode.Mts, "7654321"));
             var actualCall = stationObject.WaitingCalls.First();
 
             Assert.IsTrue(actualCall.Caller.Number.Equals(expectedCall.Caller.Number) 
@@ -57,16 +67,16 @@ namespace AutomaticTelephoneStationTests.StationsTests
         [TestMethod]
         public void OnCallChangeStateMethodTestsInWaiting()
         {
-            var stationObject = new Station("+375", "77");
-            var callingPhone = new Phone(new LowTariffPlan(), new TaskOperatorPhoneNumber("1234567"));
-            var targetPhone = new Phone(new LowTariffPlan(), new TaskOperatorPhoneNumber("7654321"));
-            var callingPortObject = new Port(callingPhone);
-            var targetPortObject = new Port(targetPhone);
+            var stationObject = new Station(CountryCode.Belarus);
+            var callingPhone = new Phone(new LowTariffPlan(), new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567"));
+            var targetPhone = new Phone(new LowTariffPlan(), new BelarusPhoneNumber(BelarusOperatorCode.Mts, "7654321"));
+            var callingPortObject = new Port(callingPhone, stationObject);
+            var targetPortObject = new Port(targetPhone, stationObject);
             stationObject.PortController.AddPort(callingPortObject);
             stationObject.PortController.AddPort(targetPortObject);
             var startingCallEventArgs = new StartingCallEventArgs(
-                new TaskOperatorPhoneNumber("1234567"),
-                new TaskOperatorPhoneNumber("7654321"));
+                new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567"),
+                new BelarusPhoneNumber(BelarusOperatorCode.Mts, "7654321"));
 
             stationObject.OnPhoneStartingCall(callingPortObject, startingCallEventArgs);
             var stationCallingEventArgsObject = new StationCallingEventArgs(stationObject.WaitingCalls.First());
@@ -79,16 +89,16 @@ namespace AutomaticTelephoneStationTests.StationsTests
         [TestMethod]
         public void OnCallChangeStateMethodTestsInProgress()
         {
-            var stationObject = new Station("+375", "77");
-            var callingPhone = new Phone(new LowTariffPlan(), new TaskOperatorPhoneNumber("1234567"));
-            var targetPhone = new Phone(new LowTariffPlan(), new TaskOperatorPhoneNumber("7654321"));
-            var callingPortObject = new Port(callingPhone);
-            var targetPortObject = new Port(targetPhone);
+            var stationObject = new Station(CountryCode.Belarus);
+            var callingPhone = new Phone(new LowTariffPlan(), new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567"));
+            var targetPhone = new Phone(new LowTariffPlan(), new BelarusPhoneNumber(BelarusOperatorCode.Mts, "7654321"));
+            var callingPortObject = new Port(callingPhone, stationObject);
+            var targetPortObject = new Port(targetPhone, stationObject);
             stationObject.PortController.AddPort(callingPortObject);
             stationObject.PortController.AddPort(targetPortObject);
             var startingCallEventArgs = new StartingCallEventArgs(
-                new TaskOperatorPhoneNumber("1234567"),
-                new TaskOperatorPhoneNumber("7654321"));
+                new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567"),
+                new BelarusPhoneNumber(BelarusOperatorCode.Mts, "7654321"));
 
             stationObject.OnPhoneStartingCall(callingPortObject, startingCallEventArgs);
             var stationCallingEventArgsObject = new StationCallingEventArgs(stationObject.WaitingCalls.First());
@@ -98,6 +108,24 @@ namespace AutomaticTelephoneStationTests.StationsTests
             stationObject.OnCallChangeState(targetPortObject, stationCallingEventArgsObject);
 
             Assert.IsTrue(!stationObject.InProgressCalls.Contains(stationCallingEventArgsObject.Call));
+        }
+
+        [TestMethod]
+        public void OnPhoneStartingCallMethodTestsPhoneNumberIsAnotherCountry()
+        {
+            var stationObject = new Station(CountryCode.Belarus);
+            var callingPhone = new Phone(new LowTariffPlan(), new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567"));
+            var targetPhone = new Phone(new LowTariffPlan(), new RussiaPhoneNumber(RussiaOperatorCode.Mts, "7654321"));
+            var callingPortObject = new Port(callingPhone, stationObject);
+            callingPortObject.Phone.ConnectToPort();
+            var targetPortObject = new Port(targetPhone, stationObject);
+            targetPortObject.Phone.ConnectToPort();
+            stationObject.PortController.AddPort(callingPortObject);
+            stationObject.PortController.AddPort(targetPortObject);
+
+            callingPortObject.Phone.Call(targetPortObject.Phone.PhoneNumber);
+
+            Assert.IsTrue(callingPortObject.Phone.PhoneCallState is PhoneCallState.Silence);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using AutomaticTelephoneStation.Calls;
-using AutomaticTelephoneStation.PhoneNumbers;
-using AutomaticTelephoneStation.PhoneNumbers.BelarusPhoneNumbers;
+using AutomaticTelephoneStation.PhoneNumbers.OperatorCodes;
+using AutomaticTelephoneStation.PhoneNumbers.PhoneNumbers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AutomaticTelephoneStationTests.CallsTests
@@ -12,12 +12,14 @@ namespace AutomaticTelephoneStationTests.CallsTests
         [TestMethod]
         public void TestCallClassCreatingWithValidParameters()
         {
-            var expectedCallerPhoneNumber = new TaskOperatorPhoneNumber("1234567");
-            var expectedReceiverPhoneNumber = new TaskOperatorPhoneNumber("7654321");
+            var expectedCallerPhoneNumber = new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567");
+            var expectedReceiverPhoneNumber = new BelarusPhoneNumber(BelarusOperatorCode.Mts, "7654321");
             var expectedCallState = CallState.IsWaiting;
             var expectedDuration = 0;
 
-            var actualCallObject = new Call(new TaskOperatorPhoneNumber("1234567"), new TaskOperatorPhoneNumber("7654321"));
+            var actualCallObject = new Call(
+                new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567"), 
+                new BelarusPhoneNumber(BelarusOperatorCode.Mts, "7654321"));
 
             Assert.IsTrue(expectedCallerPhoneNumber.Number.Equals(actualCallObject.Caller.Number)
                           && expectedReceiverPhoneNumber.Number.Equals(actualCallObject.Receiver.Number)
@@ -28,7 +30,9 @@ namespace AutomaticTelephoneStationTests.CallsTests
         [TestMethod]
         public void TestStopwatchMethods()
         {
-            var callObject = new Call(new TaskOperatorPhoneNumber("1234567"), new TaskOperatorPhoneNumber("7654321"));
+            var callObject = new Call(
+                new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567"),
+                new BelarusPhoneNumber(BelarusOperatorCode.Mts, "7654321"));
 
             var expectedDuration = 1;
 
