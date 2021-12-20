@@ -2,6 +2,7 @@
 {
     public interface IPhoneNumber
     {
-        public string Number { get; }
+        CountryCode CountryCode { get; }
+        string Number { get; }
     }
 }
