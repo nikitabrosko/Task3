@@ -2,6 +2,7 @@
 using AutomaticTelephoneStation.EventArgs;
 using AutomaticTelephoneStation.PhoneNumbers;
 using AutomaticTelephoneStation.Phones;
+using AutomaticTelephoneStation.Stations;
 
 namespace AutomaticTelephoneStation.Ports
 {
@@ -18,7 +19,7 @@ namespace AutomaticTelephoneStation.Ports
 
         public IPhone Phone { get; }
 
-        public Port(IPhone phone)
+        public Port(IPhone phone, IStation station)
         {
             if (phone is null)
             {
@@ -34,6 +35,8 @@ namespace AutomaticTelephoneStation.Ports
             Phone.CallChangeState += OnCallChangeStateFromPhone;
             IncomingCall += Phone.OnIncomingCall;
             ResponseFromStation += Phone.OnResponseFromStation;
+            OutgoingCall += station.OnPhoneStartingCall;
+            station.ResponseFromCall += OnResponseFromCall;
         }
 
         public void OnPhoneStartingCall(object sender, StartingCallEventArgs args)

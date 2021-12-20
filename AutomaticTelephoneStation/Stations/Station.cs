@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using AutomaticTelephoneStation.Calls;
 using AutomaticTelephoneStation.EventArgs;
+using AutomaticTelephoneStation.PhoneNumbers;
 
 namespace AutomaticTelephoneStation.Stations
 {
@@ -11,7 +12,7 @@ namespace AutomaticTelephoneStation.Stations
     {
         public event EventHandler<ResponseCallEventArgs> ResponseFromCall;
 
-        private readonly string _currentOperatorCode;
+        private readonly CountryCode _countryCode;
         private readonly IList<ICall> _waitingCalls = new List<ICall>();
         private readonly IList<ICall> _inProgressCalls = new List<ICall>();
 
@@ -21,18 +22,20 @@ namespace AutomaticTelephoneStation.Stations
 
         public PortController PortController { get; }
 
-        public Station(string countryCode, string operatorCode)
+        public Station(CountryCode countryCode)
         {
-            _currentOperatorCode = string.Concat(countryCode, operatorCode);
-
+            _countryCode = countryCode;
             PortController = new PortController();
         }
 
         public void OnPhoneStartingCall(object sender, StartingCallEventArgs args)
         {
-            if (!args.TargetPhoneNumber.Number.StartsWith(_currentOperatorCode))
+            if (!args.TargetPhoneNumber.Number.StartsWith(string.Concat("+", ((int)_countryCode).ToString())) 
+                || !args.SourcePhoneNumber.Number.StartsWith(string.Concat("+", ((int)_countryCode).ToString())))
             {
                 OnResponseFromCall(this, new ResponseCallEventArgs(CallState.IsEnd));
+
+                return;
             }
 
             var call = new Call(args.SourcePhoneNumber, args.TargetPhoneNumber);
