@@ -1,7 +1,7 @@
 ﻿using AutomaticTelephoneStation.BillingSystem.TariffPlans;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace AutomaticTelephoneStationTests.TariffPlansTests
+namespace AutomaticTelephoneStationTests.BillingSystemTests.TariffPlansTests
 {
     [TestClass]
     public class TariffPlansTestsClass

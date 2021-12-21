@@ -7,7 +7,7 @@ using AutomaticTelephoneStation.PhoneNumbers.OperatorCodes;
 using AutomaticTelephoneStation.PhoneNumbers.PhoneNumbers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace AutomaticTelephoneStationTests.CallReportsTests
+namespace AutomaticTelephoneStationTests.BillingSystemTests.CallReportsTests
 {
     [TestClass]
     public class CallReportsTestsClass
