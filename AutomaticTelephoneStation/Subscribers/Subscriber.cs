@@ -1,4 +1,5 @@
 ﻿using System;
+using AutomaticTelephoneStation.CallReports;
 using AutomaticTelephoneStation.PhoneNumbers;
 using AutomaticTelephoneStation.Phones;
 using AutomaticTelephoneStation.Ports;
@@ -8,7 +9,6 @@ namespace AutomaticTelephoneStation.Subscribers
 {
     public class Subscriber : ISubscriber
     {
-
         public string FirstName { get; }
 
         public string LastName { get; }

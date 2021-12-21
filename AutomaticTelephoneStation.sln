@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutomaticTelephoneStation", "AutomaticTelephoneStation\AutomaticTelephoneStation.csproj", "{D61A7ED3-0826-4AF0-AF45-E4176454D915}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutomaticTelephoneStation", "AutomaticTelephoneStation\AutomaticTelephoneStation.csproj", "{D61A7ED3-0826-4AF0-AF45-E4176454D915}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutomaticTelephoneStationTests", "AutomaticTelephoneStationTests\AutomaticTelephoneStationTests.csproj", "{9BAA6891-109C-4DCB-9045-2482E5F9C0D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutomaticTelephoneStationTests", "AutomaticTelephoneStationTests\AutomaticTelephoneStationTests.csproj", "{9BAA6891-109C-4DCB-9045-2482E5F9C0D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
