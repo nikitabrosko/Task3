@@ -6,7 +6,6 @@ using AutomaticTelephoneStation.Ports;
 using AutomaticTelephoneStation.Stations;
 using AutomaticTelephoneStation.TariffPlans;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 
 namespace AutomaticTelephoneStationTests.PhoneTests
 {
@@ -29,9 +28,9 @@ namespace AutomaticTelephoneStationTests.PhoneTests
         [TestMethod]
         public void TestConnectToPortMethod()
         {
-            var mock = new Mock<IStation>();
+            var stationObject = new Station(CountryCode.Belarus);
             var phoneObject = new Phone(new LowTariffPlan(), new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567"));
-            var portObject = new Port(phoneObject, mock.Object);
+            var portObject = new Port(phoneObject, stationObject);
 
             portObject.Phone.ConnectToPort();
 
@@ -116,34 +115,22 @@ namespace AutomaticTelephoneStationTests.PhoneTests
 
         public static IPort GetSourcePortObject(IStation stationObject)
         {
-            var mock = new Mock<IStation>();
-
             var sourcePhoneNumberObject = new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567");
             var sourceTariffPlanObject = new LowTariffPlan();
             var sourcePhoneObject = new Phone(sourceTariffPlanObject, sourcePhoneNumberObject);
-            var sourcePortObject = new Port(sourcePhoneObject, mock.Object);
+            var sourcePortObject = new Port(sourcePhoneObject, stationObject);
             sourcePortObject.Phone.ConnectToPort();
-            sourcePortObject.OutgoingCall += stationObject.OnPhoneStartingCall;
-            sourcePortObject.CallChangeState += stationObject.OnCallChangeState;
-            stationObject.ResponseFromCall += sourcePortObject.OnResponseFromCall;
-            stationObject.PortController.AddPort(sourcePortObject);
 
             return sourcePortObject;
         }
 
         public static IPort GetTargetPortObject(IStation stationObject)
         {
-            var mock = new Mock<IStation>();
-
             var targetPhoneNumberObject = new BelarusPhoneNumber(BelarusOperatorCode.Mts, "7654321");
             var targetTariffPlanObject = new LowTariffPlan();
             var targetPhoneObject = new Phone(targetTariffPlanObject, targetPhoneNumberObject);
-            var targetPortObject = new Port(targetPhoneObject, mock.Object);
+            var targetPortObject = new Port(targetPhoneObject, stationObject);
             targetPortObject.Phone.ConnectToPort();
-            targetPortObject.OutgoingCall += stationObject.OnPhoneStartingCall;
-            targetPortObject.CallChangeState += stationObject.OnCallChangeState;
-            stationObject.ResponseFromCall += targetPortObject.OnResponseFromCall;
-            stationObject.PortController.AddPort(targetPortObject);
 
             return targetPortObject;
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using AutomaticTelephoneStation.PhoneNumbers;
 using AutomaticTelephoneStation.PhoneNumbers.OperatorCodes;
 using AutomaticTelephoneStation.PhoneNumbers.PhoneNumbers;
 using AutomaticTelephoneStation.Phones;
@@ -17,13 +18,12 @@ namespace AutomaticTelephoneStationTests.PortControllersTests
         [TestMethod]
         public void PortControllerClassCreatingWithValidParameters()
         {
-            var mock = new Mock<IStation>();
-
+            var stationObject = new Station(CountryCode.Belarus);
             var phoneObject = new Phone(new LowTariffPlan(), new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567"));
             var portControllerObject = new PortController();
-            portControllerObject.AddPort(new Port(phoneObject, mock.Object));
 
-            var expectedPort = new Port(phoneObject, mock.Object);
+            var expectedPort = new Port(phoneObject, stationObject);
+            portControllerObject.AddPort(expectedPort);
             var actualPort = portControllerObject.Ports.First();
 
             Assert.IsTrue(expectedPort.State.Equals(actualPort.State) 

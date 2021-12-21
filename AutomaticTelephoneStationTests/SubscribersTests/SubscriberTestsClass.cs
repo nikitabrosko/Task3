@@ -1,4 +1,5 @@
-﻿using AutomaticTelephoneStation.PhoneNumbers.OperatorCodes;
+﻿using AutomaticTelephoneStation.PhoneNumbers;
+using AutomaticTelephoneStation.PhoneNumbers.OperatorCodes;
 using AutomaticTelephoneStation.PhoneNumbers.PhoneNumbers;
 using AutomaticTelephoneStation.Phones;
 using AutomaticTelephoneStation.Ports;
@@ -16,12 +17,12 @@ namespace AutomaticTelephoneStationTests.SubscribersTests
         [TestMethod]
         public void TestCreatingSubscriberClass()
         {
-            var mock = new Mock<IStation>();
+            var stationObject = new Station(CountryCode.Belarus);
 
             var phoneNumberObject = new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567");
             var tariffPlanObject = new LowTariffPlan();
             var phoneObject = new Phone(tariffPlanObject, phoneNumberObject);
-            var portObject = new Port(phoneObject, mock.Object);
+            var portObject = new Port(phoneObject, stationObject);
 
             var subscriberObject = new Subscriber("Nikita", "Brosko", portObject);
 

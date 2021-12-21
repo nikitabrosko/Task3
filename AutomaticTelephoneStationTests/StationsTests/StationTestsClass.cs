@@ -19,17 +19,20 @@ namespace AutomaticTelephoneStationTests.StationsTests
         public void StationClassCreatingWithValidParameters()
         {
             var stationObject = new Station(CountryCode.Belarus);
-            stationObject.PortController.AddPort(new Port(
+            var portObjectFirst = new Port(
                 new Phone(
                     new LowTariffPlan(), 
                     new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567")),
-                stationObject));
+                stationObject);
 
-            var expectedPortController = new PortController();
-            expectedPortController.AddPort(new Port(
+            var portObjectSecond = new Port(
                 new Phone(
                     new LowTariffPlan(), new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567")),
-                stationObject));
+                stationObject);
+            var expectedPortController = new PortController();
+            expectedPortController.AddPort(portObjectFirst);
+            expectedPortController.AddPort(portObjectSecond);
+
             var actualPortController = stationObject.PortController;
 
             Assert.IsTrue(expectedPortController.Ports.First().ConnectionState
@@ -46,8 +49,6 @@ namespace AutomaticTelephoneStationTests.StationsTests
             var targetPhone = new Phone(new LowTariffPlan(), new BelarusPhoneNumber(BelarusOperatorCode.Mts, "7654321"));
             var callingPortObject = new Port(callingPhone, stationObject);
             var targetPortObject = new Port(targetPhone, stationObject);
-            stationObject.PortController.AddPort(callingPortObject);
-            stationObject.PortController.AddPort(targetPortObject);
             var startingCallEventArgs = new StartingCallEventArgs(
                 new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567"),
                 new BelarusPhoneNumber(BelarusOperatorCode.Mts, "7654321"));
@@ -72,8 +73,6 @@ namespace AutomaticTelephoneStationTests.StationsTests
             var targetPhone = new Phone(new LowTariffPlan(), new BelarusPhoneNumber(BelarusOperatorCode.Mts, "7654321"));
             var callingPortObject = new Port(callingPhone, stationObject);
             var targetPortObject = new Port(targetPhone, stationObject);
-            stationObject.PortController.AddPort(callingPortObject);
-            stationObject.PortController.AddPort(targetPortObject);
             var startingCallEventArgs = new StartingCallEventArgs(
                 new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567"),
                 new BelarusPhoneNumber(BelarusOperatorCode.Mts, "7654321"));
@@ -94,8 +93,6 @@ namespace AutomaticTelephoneStationTests.StationsTests
             var targetPhone = new Phone(new LowTariffPlan(), new BelarusPhoneNumber(BelarusOperatorCode.Mts, "7654321"));
             var callingPortObject = new Port(callingPhone, stationObject);
             var targetPortObject = new Port(targetPhone, stationObject);
-            stationObject.PortController.AddPort(callingPortObject);
-            stationObject.PortController.AddPort(targetPortObject);
             var startingCallEventArgs = new StartingCallEventArgs(
                 new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567"),
                 new BelarusPhoneNumber(BelarusOperatorCode.Mts, "7654321"));
@@ -120,8 +117,6 @@ namespace AutomaticTelephoneStationTests.StationsTests
             callingPortObject.Phone.ConnectToPort();
             var targetPortObject = new Port(targetPhone, stationObject);
             targetPortObject.Phone.ConnectToPort();
-            stationObject.PortController.AddPort(callingPortObject);
-            stationObject.PortController.AddPort(targetPortObject);
 
             callingPortObject.Phone.Call(targetPortObject.Phone.PhoneNumber);
 

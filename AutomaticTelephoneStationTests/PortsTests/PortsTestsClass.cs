@@ -19,10 +19,10 @@ namespace AutomaticTelephoneStationTests.PortsTests
         [TestMethod]
         public void TestCreatingPortClassWithValidParameters()
         {
-            var mock = new Mock<IStation>();
+            var stationObject = new Station(CountryCode.Belarus);
 
             var phoneObject = new Phone(new LowTariffPlan(), new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567"));
-            var actualPortObject = new Port(phoneObject, mock.Object);
+            var actualPortObject = new Port(phoneObject, stationObject);
 
             Assert.IsTrue(actualPortObject.ConnectionState.Equals(ConnectionState.Disconnected) 
                           && actualPortObject.State.Equals(PortState.Free)
@@ -30,7 +30,7 @@ namespace AutomaticTelephoneStationTests.PortsTests
         }
 
         [TestMethod]
-        public void TestCreatingPortClassWithInvalidParameters()
+        public void TestCreatingPortClassWithInvalidParametersPhoneIsNull()
         {
             var mock = new Mock<IStation>();
 
@@ -40,10 +40,18 @@ namespace AutomaticTelephoneStationTests.PortsTests
         }
 
         [TestMethod]
+        public void TestCreatingPortClassWithInvalidParametersStationIsNull()
+        {
+            IStation stationObject = null;
+
+            var mock = new Mock<IPhone>();
+
+            Assert.ThrowsException<ArgumentNullException>(() => new Port(mock.Object, stationObject));
+        }
+
+        [TestMethod]
         public void TestOnPhoneCallingByStationMethod()
         {
-            var mock = new Mock<IStation>();
-
             var stationObject = new Station(CountryCode.Belarus);
             var stationCallingEventArgsObject =
                 new StationCallingEventArgs(
@@ -51,7 +59,7 @@ namespace AutomaticTelephoneStationTests.PortsTests
                         new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567"),
                         new BelarusPhoneNumber(BelarusOperatorCode.Mts, "7654321")));
             var phoneObject = new Phone(new LowTariffPlan(), new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567"));
-            var portObject = new Port(phoneObject, mock.Object);
+            var portObject = new Port(phoneObject, stationObject);
             portObject.Phone.ConnectToPort();
 
             portObject.OnPhoneCallingByStation(stationObject, stationCallingEventArgsObject);
@@ -62,26 +70,28 @@ namespace AutomaticTelephoneStationTests.PortsTests
         [TestMethod]
         public void TestOnPhoneStartingCallMethod()
         {
-            var mock = new Mock<IStation>();
-
             var stationObject = new Station(CountryCode.Belarus);
             var stationCallingEventArgsObject =
                 new StartingCallEventArgs(
                     new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567"),
-                    new BelarusPhoneNumber(BelarusOperatorCode.Mts, "7654321"));
-            var phoneObject = new Phone(new LowTariffPlan(), new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567"));
-            var portObject = new Port(phoneObject, mock.Object);
-            portObject.Phone.ConnectToPort();
+                    new BelarusPhoneNumber(BelarusOperatorCode.A1, "7654321"));
+            var phoneObjectCaller = new Phone(new LowTariffPlan(), new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567"));
+            var portObjectCaller = new Port(phoneObjectCaller, stationObject);
+            var phoneObjectReceiver =
+                new Phone(new LowTariffPlan(), new BelarusPhoneNumber(BelarusOperatorCode.A1, "7654321"));
+            var portObjectReceiver = new Port(phoneObjectReceiver, stationObject);
 
-            portObject.OnPhoneStartingCall(stationObject, stationCallingEventArgsObject);
+            portObjectCaller.Phone.ConnectToPort();
 
-            Assert.IsTrue(portObject.State is PortState.Busy);
+            portObjectCaller.OnPhoneStartingCall(portObjectCaller.Phone, stationCallingEventArgsObject);
+
+            Assert.IsTrue(portObjectCaller.State is PortState.Busy);
         }
 
         [TestMethod]
         public void TestOnCallChangeStateMethod()
         {
-            var mock = new Mock<IStation>();
+            var stationObject = new Station(CountryCode.Belarus);
 
             var stationCallingEventArgsObject =
                 new StationCallingEventArgs(
@@ -89,7 +99,7 @@ namespace AutomaticTelephoneStationTests.PortsTests
                         new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567"),
                         new BelarusPhoneNumber(BelarusOperatorCode.Mts, "7654321")));
             var phoneObject = new Phone(new LowTariffPlan(), new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567"));
-            var portObject = new Port(phoneObject, mock.Object);
+            var portObject = new Port(phoneObject, stationObject);
             portObject.Phone.ConnectToPort();
 
             portObject.Phone.OnIncomingCall(portObject, stationCallingEventArgsObject);
