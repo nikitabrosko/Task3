@@ -3,9 +3,6 @@ using AutomaticTelephoneStation.CallReports;
 using AutomaticTelephoneStation.Calls;
 using AutomaticTelephoneStation.EventArgs;
 using AutomaticTelephoneStation.PhoneNumbers;
-using AutomaticTelephoneStation.Ports;
-using AutomaticTelephoneStation.Subscribers;
-using AutomaticTelephoneStation.TariffPlans;
 
 namespace AutomaticTelephoneStation.Phones
 {
@@ -19,23 +16,20 @@ namespace AutomaticTelephoneStation.Phones
 
         public IPhoneNumber PhoneNumber { get; }
 
-        public ITariffPlan TariffPlan { get; }
-
         public ConnectionState ConnectionState { get; private set; }
 
         public PhoneCallState PhoneCallState { get; private set; }
 
-        public ICallReport CallReports { get; }
+        public ICallReportRepository CallReports { get; }
 
-        public Phone(ITariffPlan tariffPlan, IPhoneNumber phoneNumber)
+        public Phone(IPhoneNumber phoneNumber)
         {
-            TariffPlan = tariffPlan;
             PhoneNumber = phoneNumber;
 
             ConnectionState = ConnectionState.Disconnected;
             PhoneCallState = PhoneCallState.Silence;
 
-            CallReports = new CallReport();
+            CallReports = new CallReportRepository();
         }
 
         public void Call(IPhoneNumber phoneNumber)
@@ -82,7 +76,7 @@ namespace AutomaticTelephoneStation.Phones
             }
         }
 
-        public void OnCallReportFromPort(object sender, StationReportEventArgs args)
+        public void OnCallReportFromPort(object sender, PortReportEventArgs args)
         {
             CallReports.AddCall(args.CallReport);
         }

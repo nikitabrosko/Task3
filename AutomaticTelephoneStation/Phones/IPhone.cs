@@ -12,16 +12,15 @@ namespace AutomaticTelephoneStation.Phones
         event EventHandler<ConnectionStateEventArgs> ChangeConnection;
         event EventHandler<StationCallingEventArgs> CallChangeState;
         IPhoneNumber PhoneNumber { get; }
-        ITariffPlan TariffPlan { get; }
         ConnectionState ConnectionState { get; }
         PhoneCallState PhoneCallState { get; }
-        ICallReport CallReports { get; }
+        ICallReportRepository CallReports { get; }
         void Call(IPhoneNumber phoneNumber);
         void ConnectToPort();
         void DisconnectFromPort();
         void OnIncomingCall(object sender, StationCallingEventArgs args);
         void OnResponseFromPort(object sender, ResponseCallEventArgs args);
-        void OnCallReportFromPort(object sender, StationReportEventArgs args);
+        void OnCallReportFromPort(object sender, PortReportEventArgs args);
         void AcceptCall();
         void RejectCall();
     }
