@@ -5,12 +5,14 @@ using System.Linq;
 using AutomaticTelephoneStation.Calls;
 using AutomaticTelephoneStation.EventArgs;
 using AutomaticTelephoneStation.PhoneNumbers;
+using AutomaticTelephoneStation.Ports;
 
 namespace AutomaticTelephoneStation.Stations
 {
     public class Station : IStation
     {
         public event EventHandler<ResponseCallEventArgs> ResponseFromCall;
+        public event EventHandler<StationReportEventArgs> CallReport;
 
         private readonly CountryCode _countryCode;
         private readonly IList<ICall> _waitingCalls = new List<ICall>();
@@ -40,8 +42,8 @@ namespace AutomaticTelephoneStation.Stations
 
             var call = new Call(args.SourcePhoneNumber, args.TargetPhoneNumber);
 
-            PortController.Ports
-                .Single(p => p.Phone.PhoneNumber.Number.Equals(args.TargetPhoneNumber.Number))
+            
+            FindPortViaPhoneNumber(args.TargetPhoneNumber)
                 .OnPhoneCallingByStation(sender, new StationCallingEventArgs(call));
 
             _waitingCalls.Add(call);
@@ -63,6 +65,7 @@ namespace AutomaticTelephoneStation.Stations
                 if (!_inProgressCalls.Contains(args.Call))
                 {
                     OnResponseFromCall(sender, new ResponseCallEventArgs(CallState.IsEnd));
+                    OnCallReport(this, new StationReportEventArgs(args.Call));
                 }
             }
             else if (_inProgressCalls.Contains(args.Call))
@@ -75,12 +78,24 @@ namespace AutomaticTelephoneStation.Stations
                 _inProgressCalls.Remove(args.Call);
 
                 OnResponseFromCall(sender, new ResponseCallEventArgs(CallState.IsEnd));
+                OnCallReport(this, new StationReportEventArgs(args.Call));
             }
         }
 
         protected virtual void OnResponseFromCall(object sender, ResponseCallEventArgs args)
         {
             ResponseFromCall?.Invoke(sender, args);
+        }
+
+        protected virtual void OnCallReport(object sender, StationReportEventArgs args)
+        {
+            CallReport?.Invoke(sender, args);
+        }
+
+        private IPort FindPortViaPhoneNumber(IPhoneNumber phoneNumber)
+        {
+            return PortController.Ports
+                .Single(p => p.Phone.PhoneNumber.Number.Equals(phoneNumber.Number));
         }
     }
 }
