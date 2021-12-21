@@ -19,7 +19,7 @@ namespace AutomaticTelephoneStationTests.PortControllersTests
         public void PortControllerClassCreatingWithValidParameters()
         {
             var stationObject = new Station(CountryCode.Belarus);
-            var phoneObject = new Phone(new LowTariffPlan(), new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567"));
+            var phoneObject = new Phone(new BelarusPhoneNumber(BelarusOperatorCode.Mts, new LowTariffPlan(), "1234567"));
             var portControllerObject = new PortController();
 
             var expectedPort = new Port(phoneObject, stationObject);

@@ -21,13 +21,12 @@ namespace AutomaticTelephoneStationTests.StationsTests
             var stationObject = new Station(CountryCode.Belarus);
             var portObjectFirst = new Port(
                 new Phone(
-                    new LowTariffPlan(), 
-                    new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567")),
+                    new BelarusPhoneNumber(BelarusOperatorCode.Mts, new LowTariffPlan(), "1234567")),
                 stationObject);
 
             var portObjectSecond = new Port(
                 new Phone(
-                    new LowTariffPlan(), new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567")),
+                    new BelarusPhoneNumber(BelarusOperatorCode.Mts, new LowTariffPlan(), "1234567")),
                 stationObject);
             var expectedPortController = new PortController();
             expectedPortController.AddPort(portObjectFirst);
@@ -45,18 +44,18 @@ namespace AutomaticTelephoneStationTests.StationsTests
         public void OnPhoneStartingCallMethodTests()
         {
             var stationObject = new Station(CountryCode.Belarus);
-            var callingPhone = new Phone(new LowTariffPlan(), new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567"));
-            var targetPhone = new Phone(new LowTariffPlan(), new BelarusPhoneNumber(BelarusOperatorCode.Mts, "7654321"));
+            var callingPhone = new Phone(new BelarusPhoneNumber(BelarusOperatorCode.Mts, new LowTariffPlan(), "1234567"));
+            var targetPhone = new Phone(new BelarusPhoneNumber(BelarusOperatorCode.Mts, new LowTariffPlan(), "7654321"));
             var callingPortObject = new Port(callingPhone, stationObject);
             var targetPortObject = new Port(targetPhone, stationObject);
             var startingCallEventArgs = new StartingCallEventArgs(
-                new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567"),
-                new BelarusPhoneNumber(BelarusOperatorCode.Mts, "7654321"));
+                new BelarusPhoneNumber(BelarusOperatorCode.Mts, new LowTariffPlan(), "1234567"),
+                new BelarusPhoneNumber(BelarusOperatorCode.Mts, new LowTariffPlan(), "7654321"));
 
             stationObject.OnPhoneStartingCall(callingPortObject, startingCallEventArgs);
             var expectedCall = new Call(
-                new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567"),
-                new BelarusPhoneNumber(BelarusOperatorCode.Mts, "7654321"));
+                new BelarusPhoneNumber(BelarusOperatorCode.Mts, new LowTariffPlan(), "1234567"),
+                new BelarusPhoneNumber(BelarusOperatorCode.Mts, new LowTariffPlan(), "7654321"));
             var actualCall = stationObject.WaitingCalls.First();
 
             Assert.IsTrue(actualCall.Caller.Number.Equals(expectedCall.Caller.Number) 
@@ -69,13 +68,13 @@ namespace AutomaticTelephoneStationTests.StationsTests
         public void OnCallChangeStateMethodTestsInWaiting()
         {
             var stationObject = new Station(CountryCode.Belarus);
-            var callingPhone = new Phone(new LowTariffPlan(), new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567"));
-            var targetPhone = new Phone(new LowTariffPlan(), new BelarusPhoneNumber(BelarusOperatorCode.Mts, "7654321"));
+            var callingPhone = new Phone(new BelarusPhoneNumber(BelarusOperatorCode.Mts, new LowTariffPlan(), "1234567"));
+            var targetPhone = new Phone(new BelarusPhoneNumber(BelarusOperatorCode.Mts, new LowTariffPlan(), "7654321"));
             var callingPortObject = new Port(callingPhone, stationObject);
             var targetPortObject = new Port(targetPhone, stationObject);
             var startingCallEventArgs = new StartingCallEventArgs(
-                new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567"),
-                new BelarusPhoneNumber(BelarusOperatorCode.Mts, "7654321"));
+                new BelarusPhoneNumber(BelarusOperatorCode.Mts, new LowTariffPlan(), "1234567"),
+                new BelarusPhoneNumber(BelarusOperatorCode.Mts, new LowTariffPlan(), "7654321"));
 
             stationObject.OnPhoneStartingCall(callingPortObject, startingCallEventArgs);
             var stationCallingEventArgsObject = new StationCallingEventArgs(stationObject.WaitingCalls.First());
@@ -89,13 +88,13 @@ namespace AutomaticTelephoneStationTests.StationsTests
         public void OnCallChangeStateMethodTestsInProgress()
         {
             var stationObject = new Station(CountryCode.Belarus);
-            var callingPhone = new Phone(new LowTariffPlan(), new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567"));
-            var targetPhone = new Phone(new LowTariffPlan(), new BelarusPhoneNumber(BelarusOperatorCode.Mts, "7654321"));
+            var callingPhone = new Phone(new BelarusPhoneNumber(BelarusOperatorCode.Mts, new LowTariffPlan(), "1234567"));
+            var targetPhone = new Phone(new BelarusPhoneNumber(BelarusOperatorCode.Mts, new LowTariffPlan(), "7654321"));
             var callingPortObject = new Port(callingPhone, stationObject);
             var targetPortObject = new Port(targetPhone, stationObject);
             var startingCallEventArgs = new StartingCallEventArgs(
-                new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567"),
-                new BelarusPhoneNumber(BelarusOperatorCode.Mts, "7654321"));
+                new BelarusPhoneNumber(BelarusOperatorCode.Mts, new LowTariffPlan(), "1234567"),
+                new BelarusPhoneNumber(BelarusOperatorCode.Mts, new LowTariffPlan(), "7654321"));
 
             stationObject.OnPhoneStartingCall(callingPortObject, startingCallEventArgs);
             var stationCallingEventArgsObject = new StationCallingEventArgs(stationObject.WaitingCalls.First());
@@ -111,8 +110,8 @@ namespace AutomaticTelephoneStationTests.StationsTests
         public void OnPhoneStartingCallMethodTestsPhoneNumberIsAnotherCountry()
         {
             var stationObject = new Station(CountryCode.Belarus);
-            var callingPhone = new Phone(new LowTariffPlan(), new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567"));
-            var targetPhone = new Phone(new LowTariffPlan(), new RussiaPhoneNumber(RussiaOperatorCode.Mts, "7654321"));
+            var callingPhone = new Phone(new BelarusPhoneNumber(BelarusOperatorCode.Mts, new LowTariffPlan(), "1234567"));
+            var targetPhone = new Phone(new RussiaPhoneNumber(RussiaOperatorCode.Mts, new LowTariffPlan(), "7654321"));
             var callingPortObject = new Port(callingPhone, stationObject);
             callingPortObject.Phone.ConnectToPort();
             var targetPortObject = new Port(targetPhone, stationObject);

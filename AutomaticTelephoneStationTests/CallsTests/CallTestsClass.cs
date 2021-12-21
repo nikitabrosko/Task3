@@ -2,6 +2,7 @@
 using AutomaticTelephoneStation.Calls;
 using AutomaticTelephoneStation.PhoneNumbers.OperatorCodes;
 using AutomaticTelephoneStation.PhoneNumbers.PhoneNumbers;
+using AutomaticTelephoneStation.TariffPlans;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AutomaticTelephoneStationTests.CallsTests
@@ -12,14 +13,14 @@ namespace AutomaticTelephoneStationTests.CallsTests
         [TestMethod]
         public void TestCallClassCreatingWithValidParameters()
         {
-            var expectedCallerPhoneNumber = new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567");
-            var expectedReceiverPhoneNumber = new BelarusPhoneNumber(BelarusOperatorCode.Mts, "7654321");
+            var expectedCallerPhoneNumber = new BelarusPhoneNumber(BelarusOperatorCode.Mts, new LowTariffPlan(), "1234567");
+            var expectedReceiverPhoneNumber = new BelarusPhoneNumber(BelarusOperatorCode.Mts, new LowTariffPlan(), "7654321");
             var expectedCallState = CallState.IsWaiting;
             var expectedDuration = 0;
 
             var actualCallObject = new Call(
-                new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567"), 
-                new BelarusPhoneNumber(BelarusOperatorCode.Mts, "7654321"));
+                new BelarusPhoneNumber(BelarusOperatorCode.Mts, new LowTariffPlan(), "1234567"), 
+                new BelarusPhoneNumber(BelarusOperatorCode.Mts, new LowTariffPlan(), "7654321"));
 
             Assert.IsTrue(expectedCallerPhoneNumber.Number.Equals(actualCallObject.Caller.Number)
                           && expectedReceiverPhoneNumber.Number.Equals(actualCallObject.Receiver.Number)
@@ -31,8 +32,8 @@ namespace AutomaticTelephoneStationTests.CallsTests
         public void TestStopwatchMethods()
         {
             var callObject = new Call(
-                new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567"),
-                new BelarusPhoneNumber(BelarusOperatorCode.Mts, "7654321"));
+                new BelarusPhoneNumber(BelarusOperatorCode.Mts, new LowTariffPlan(), "1234567"),
+                new BelarusPhoneNumber(BelarusOperatorCode.Mts, new LowTariffPlan(), "7654321"));
 
             var expectedDuration = 1;
 

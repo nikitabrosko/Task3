@@ -19,9 +19,8 @@ namespace AutomaticTelephoneStationTests.SubscribersTests
         {
             var stationObject = new Station(CountryCode.Belarus);
 
-            var phoneNumberObject = new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567");
-            var tariffPlanObject = new LowTariffPlan();
-            var phoneObject = new Phone(tariffPlanObject, phoneNumberObject);
+            var phoneNumberObject = new BelarusPhoneNumber(BelarusOperatorCode.Mts, new LowTariffPlan(), "1234567");
+            var phoneObject = new Phone(phoneNumberObject);
             var portObject = new Port(phoneObject, stationObject);
 
             var subscriberObject = new Subscriber("Nikita", "Brosko", portObject);

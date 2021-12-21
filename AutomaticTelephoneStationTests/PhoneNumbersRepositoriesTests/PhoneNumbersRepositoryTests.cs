@@ -3,6 +3,7 @@ using System.Linq;
 using AutomaticTelephoneStation.PhoneNumbers.OperatorCodes;
 using AutomaticTelephoneStation.PhoneNumbers.PhoneNumbers;
 using AutomaticTelephoneStation.PhoneNumbersRepositories;
+using AutomaticTelephoneStation.TariffPlans;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AutomaticTelephoneStationTests.PhoneNumbersRepositoriesTests
@@ -14,7 +15,7 @@ namespace AutomaticTelephoneStationTests.PhoneNumbersRepositoriesTests
         public void TestAddMethod()
         {
             var phoneNumbersRepository = new PhoneNumbersRepository();
-            var phoneNumberObjectFirst = new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567");
+            var phoneNumberObjectFirst = new BelarusPhoneNumber(BelarusOperatorCode.Mts, new LowTariffPlan(), "1234567");
 
             phoneNumbersRepository.AddNumber(phoneNumberObjectFirst);
 
@@ -25,7 +26,7 @@ namespace AutomaticTelephoneStationTests.PhoneNumbersRepositoriesTests
         public void TestAddMethodWithExistingNumber()
         {
             var phoneNumbersRepository = new PhoneNumbersRepository();
-            var phoneNumberObject = new BelarusPhoneNumber(BelarusOperatorCode.Mts, "1234567");
+            var phoneNumberObject = new BelarusPhoneNumber(BelarusOperatorCode.Mts, new LowTariffPlan(), "1234567");
 
             phoneNumbersRepository.AddNumber(phoneNumberObject);
 
