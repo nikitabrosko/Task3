@@ -1,4 +1,5 @@
-﻿using AutomaticTelephoneStation.Calls;
+﻿using System;
+using AutomaticTelephoneStation.Calls;
 
 namespace AutomaticTelephoneStation.EventArgs
 {
@@ -6,9 +7,9 @@ namespace AutomaticTelephoneStation.EventArgs
     {
         public ICall CallReport { get; set; }
 
-        public StationReportEventArgs(ICall call)
+        public StationReportEventArgs(ICall callReport)
         {
-            CallReport = call;
+            CallReport = callReport ?? throw new ArgumentNullException(nameof(callReport));
         }
     }
 }

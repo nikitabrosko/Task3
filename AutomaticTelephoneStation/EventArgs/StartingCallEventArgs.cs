@@ -1,4 +1,5 @@
-﻿using AutomaticTelephoneStation.PhoneNumbers;
+﻿using System;
+using AutomaticTelephoneStation.PhoneNumbers;
 
 namespace AutomaticTelephoneStation.EventArgs
 {
@@ -9,8 +10,8 @@ namespace AutomaticTelephoneStation.EventArgs
 
         public StartingCallEventArgs(IPhoneNumber sourcePhoneNumber, IPhoneNumber targetPhoneNumber)
         {
-            SourcePhoneNumber = sourcePhoneNumber;
-            TargetPhoneNumber = targetPhoneNumber;
+            SourcePhoneNumber = sourcePhoneNumber ?? throw new ArgumentNullException(nameof(sourcePhoneNumber));
+            TargetPhoneNumber = targetPhoneNumber ?? throw new ArgumentNullException(nameof(targetPhoneNumber));
         }
     }
 }
