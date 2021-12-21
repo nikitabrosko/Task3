@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using AutomaticTelephoneStation.Calls;
+﻿using AutomaticTelephoneStation.PhoneNumbers;
 
 namespace AutomaticTelephoneStation.CallReports
 {
     public interface ICallReport
     {
-        IEnumerable<ICall> Calls { get; }
-        void AddCall(ICall call);
+        IPhoneNumber PhoneNumber { get; }
+        int CallDuration { get; }
     }
 }
