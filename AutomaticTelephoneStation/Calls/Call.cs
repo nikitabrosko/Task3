@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using AutomaticTelephoneStation.PhoneNumbers;
-using AutomaticTelephoneStation.Subscribers;
 
 namespace AutomaticTelephoneStation.Calls
 {
@@ -14,7 +13,7 @@ namespace AutomaticTelephoneStation.Calls
 
         public CallState CallState { get; set; }
 
-        public int Duration { get; private set; }
+        public int Duration { get; protected set; }
 
         public Call(IPhoneNumber caller, IPhoneNumber receiver)
         {
