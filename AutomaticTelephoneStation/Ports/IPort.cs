@@ -10,7 +10,7 @@ namespace AutomaticTelephoneStation.Ports
         event EventHandler<StationCallingEventArgs> IncomingCall;
         event EventHandler<StationCallingEventArgs> CallChangeState;
         event EventHandler<ResponseCallEventArgs> ResponseFromStation;
-        event EventHandler<StationReportEventArgs> CallReport;
+        event EventHandler<PortReportEventArgs> CallReport;
         PortState State { get; }
         ConnectionState ConnectionState { get; }
         IPhone Phone { get; }

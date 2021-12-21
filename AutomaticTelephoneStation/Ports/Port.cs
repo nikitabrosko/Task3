@@ -1,4 +1,5 @@
 ﻿using System;
+using AutomaticTelephoneStation.CallReports;
 using AutomaticTelephoneStation.EventArgs;
 using AutomaticTelephoneStation.Phones;
 using AutomaticTelephoneStation.Stations;
@@ -11,7 +12,7 @@ namespace AutomaticTelephoneStation.Ports
         public event EventHandler<StationCallingEventArgs> IncomingCall;
         public event EventHandler<StationCallingEventArgs> CallChangeState;
         public event EventHandler<ResponseCallEventArgs> ResponseFromStation;
-        public event EventHandler<StationReportEventArgs> CallReport;
+        public event EventHandler<PortReportEventArgs> CallReport;
 
         public PortState State { get; private set; }
 
@@ -56,7 +57,7 @@ namespace AutomaticTelephoneStation.Ports
             {
                 State = PortState.Busy;
 
-                OnOutgoingCall(this, new StartingCallEventArgs(args.SourcePhoneNumber, args.TargetPhoneNumber));
+                OnOutgoingCall(this, args);
             }
         }
 
@@ -96,7 +97,16 @@ namespace AutomaticTelephoneStation.Ports
 
         public void OnCallReportFromStation(object sender, StationReportEventArgs args)
         {
-            OnCallReport(sender, args);
+            if (args.CallReport.Caller.Number.Equals(Phone.PhoneNumber.Number))
+            {
+                OnCallReport(sender, new PortReportEventArgs(
+                    new CallerCallReport(args.CallReport.Caller, args.CallReport.Receiver, args.CallReport.Duration)));
+            }
+            else
+            {
+                OnCallReport(sender, new PortReportEventArgs(
+                    new ReceiverCallReport(args.CallReport.Caller, args.CallReport.Duration)));
+            }
         }
 
         protected virtual void OnOutgoingCall(object sender, StartingCallEventArgs args)
@@ -119,7 +129,7 @@ namespace AutomaticTelephoneStation.Ports
             ResponseFromStation?.Invoke(sender, args);
         }
 
-        protected virtual void OnCallReport(object sender, StationReportEventArgs args)
+        protected virtual void OnCallReport(object sender, PortReportEventArgs args)
         {
             CallReport?.Invoke(sender, args);
         }
