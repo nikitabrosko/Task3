@@ -1,7 +1,7 @@
 ﻿using System;
+using AutomaticTelephoneStation.CallReports;
 using AutomaticTelephoneStation.EventArgs;
 using AutomaticTelephoneStation.PhoneNumbers;
-using AutomaticTelephoneStation.Subscribers;
 using AutomaticTelephoneStation.TariffPlans;
 
 namespace AutomaticTelephoneStation.Phones
@@ -15,11 +15,13 @@ namespace AutomaticTelephoneStation.Phones
         ITariffPlan TariffPlan { get; }
         ConnectionState ConnectionState { get; }
         PhoneCallState PhoneCallState { get; }
+        ICallReport CallReports { get; }
         void Call(IPhoneNumber phoneNumber);
         void ConnectToPort();
         void DisconnectFromPort();
         void OnIncomingCall(object sender, StationCallingEventArgs args);
-        void OnResponseFromStation(object sender, ResponseCallEventArgs args);
+        void OnResponseFromPort(object sender, ResponseCallEventArgs args);
+        void OnCallReportFromPort(object sender, StationReportEventArgs args);
         void AcceptCall();
         void RejectCall();
     }

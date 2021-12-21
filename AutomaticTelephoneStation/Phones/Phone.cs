@@ -1,4 +1,5 @@
 ﻿using System;
+using AutomaticTelephoneStation.CallReports;
 using AutomaticTelephoneStation.Calls;
 using AutomaticTelephoneStation.EventArgs;
 using AutomaticTelephoneStation.PhoneNumbers;
@@ -24,6 +25,8 @@ namespace AutomaticTelephoneStation.Phones
 
         public PhoneCallState PhoneCallState { get; private set; }
 
+        public ICallReport CallReports { get; }
+
         public Phone(ITariffPlan tariffPlan, IPhoneNumber phoneNumber)
         {
             TariffPlan = tariffPlan;
@@ -31,6 +34,8 @@ namespace AutomaticTelephoneStation.Phones
 
             ConnectionState = ConnectionState.Disconnected;
             PhoneCallState = PhoneCallState.Silence;
+
+            CallReports = new CallReport();
         }
 
         public void Call(IPhoneNumber phoneNumber)
@@ -64,7 +69,7 @@ namespace AutomaticTelephoneStation.Phones
             _call = args.Call;
         }
 
-        public void OnResponseFromStation(object sender, ResponseCallEventArgs args)
+        public void OnResponseFromPort(object sender, ResponseCallEventArgs args)
         {
             switch (args.CallState)
             {
@@ -75,6 +80,11 @@ namespace AutomaticTelephoneStation.Phones
                     PhoneCallState = PhoneCallState.Silence;
                     break;
             }
+        }
+
+        public void OnCallReportFromPort(object sender, StationReportEventArgs args)
+        {
+            CallReports.AddCall(args.CallReport);
         }
 
         protected virtual void OnOutgoingCall(object sender, StartingCallEventArgs args)
