@@ -1,4 +1,5 @@
 ﻿using AutomaticTelephoneStation.PhoneNumbers.OperatorCodes;
+using AutomaticTelephoneStation.TariffPlans;
 
 namespace AutomaticTelephoneStation.PhoneNumbers.PhoneNumbers
 {
@@ -6,7 +7,8 @@ namespace AutomaticTelephoneStation.PhoneNumbers.PhoneNumbers
     {
         public RussiaOperatorCode OperatorCode { get; }
 
-        public RussiaPhoneNumber(RussiaOperatorCode operatorCode, string number) : base(number)
+        public RussiaPhoneNumber(RussiaOperatorCode operatorCode, ITariffPlan tariffPlan, string number) 
+            : base(tariffPlan, number)
         {
             CountryCode = CountryCode.Russia;
             OperatorCode = operatorCode;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using AutomaticTelephoneStation.TariffPlans;
 
 namespace AutomaticTelephoneStation.PhoneNumbers
 {
@@ -7,9 +8,11 @@ namespace AutomaticTelephoneStation.PhoneNumbers
     {
         public CountryCode CountryCode { get; protected set; }
 
+        public ITariffPlan TariffPlan { get; }
+
         public string Number { get; protected set; }
 
-        protected PhoneNumberBase(string number)
+        protected PhoneNumberBase(ITariffPlan tariffPlan, string number)
         {
             if (number.Length != 7)
             {
@@ -20,6 +23,8 @@ namespace AutomaticTelephoneStation.PhoneNumbers
             {
                 throw new ArgumentException("some of the characters in number is not a digits");
             }
+
+            TariffPlan = tariffPlan;
         }
     }
 }

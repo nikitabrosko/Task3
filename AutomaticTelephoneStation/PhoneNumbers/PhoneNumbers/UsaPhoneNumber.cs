@@ -1,4 +1,5 @@
 ﻿using AutomaticTelephoneStation.PhoneNumbers.OperatorCodes;
+using AutomaticTelephoneStation.TariffPlans;
 
 namespace AutomaticTelephoneStation.PhoneNumbers.PhoneNumbers
 {
@@ -6,7 +7,8 @@ namespace AutomaticTelephoneStation.PhoneNumbers.PhoneNumbers
     {
         public UsaOperatorCode OperatorCode { get; }
 
-        public UsaPhoneNumber(UsaOperatorCode operatorCode, string number) : base(number)
+        public UsaPhoneNumber(UsaOperatorCode operatorCode, ITariffPlan tariffPlan, string number) 
+            : base(tariffPlan, number)
         {
             CountryCode = CountryCode.Usa;
             OperatorCode = operatorCode;
