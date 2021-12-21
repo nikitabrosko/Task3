@@ -1,5 +1,5 @@
 ﻿using System;
-using AutomaticTelephoneStation.CallReports;
+using AutomaticTelephoneStation.BillingSystem.CallReports;
 using AutomaticTelephoneStation.Calls;
 using AutomaticTelephoneStation.EventArgs;
 using AutomaticTelephoneStation.PhoneNumbers;

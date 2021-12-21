@@ -1,7 +1,7 @@
 ﻿using System;
 using AutomaticTelephoneStation.PhoneNumbers;
 
-namespace AutomaticTelephoneStation.CallReports
+namespace AutomaticTelephoneStation.BillingSystem.CallReports
 {
     public class CallerCallReport : ICallReport
     {

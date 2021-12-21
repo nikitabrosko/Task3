@@ -1,9 +1,9 @@
 ﻿using System;
+using AutomaticTelephoneStation.BillingSystem.TariffPlans;
 using AutomaticTelephoneStation.Calls;
 using AutomaticTelephoneStation.EventArgs;
 using AutomaticTelephoneStation.PhoneNumbers.OperatorCodes;
 using AutomaticTelephoneStation.PhoneNumbers.PhoneNumbers;
-using AutomaticTelephoneStation.TariffPlans;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AutomaticTelephoneStationTests.EventArgsTests

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using AutomaticTelephoneStation.Calls;
 
-namespace AutomaticTelephoneStation.CallReports
+namespace AutomaticTelephoneStation.BillingSystem.CallReports
 {
     public interface ICallReportRepository
     {

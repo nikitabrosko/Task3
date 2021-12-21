@@ -1,8 +1,8 @@
 ﻿using System;
+using AutomaticTelephoneStation.BillingSystem.TariffPlans;
 using AutomaticTelephoneStation.PhoneNumbers;
 using AutomaticTelephoneStation.PhoneNumbers.OperatorCodes;
 using AutomaticTelephoneStation.PhoneNumbers.PhoneNumbers;
-using AutomaticTelephoneStation.TariffPlans;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace AutomaticTelephoneStation.CallReports
+namespace AutomaticTelephoneStation.BillingSystem.CallReports
 {
     public class CallReportRepository : ICallReportRepository
     {

@@ -1,4 +1,4 @@
-﻿namespace AutomaticTelephoneStation.TariffPlans
+﻿namespace AutomaticTelephoneStation.BillingSystem.TariffPlans
 {
     public interface ITariffPlan
     {

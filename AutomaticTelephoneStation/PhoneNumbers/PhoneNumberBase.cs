@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using AutomaticTelephoneStation.TariffPlans;
+using AutomaticTelephoneStation.BillingSystem.TariffPlans;
 
 namespace AutomaticTelephoneStation.PhoneNumbers
 {

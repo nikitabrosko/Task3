@@ -1,5 +1,5 @@
-﻿using AutomaticTelephoneStation.PhoneNumbers.OperatorCodes;
-using AutomaticTelephoneStation.TariffPlans;
+﻿using AutomaticTelephoneStation.BillingSystem.TariffPlans;
+using AutomaticTelephoneStation.PhoneNumbers.OperatorCodes;
 
 namespace AutomaticTelephoneStation.PhoneNumbers.PhoneNumbers
 {

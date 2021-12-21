@@ -1,8 +1,7 @@
 ﻿using System;
-using AutomaticTelephoneStation.CallReports;
+using AutomaticTelephoneStation.BillingSystem.CallReports;
 using AutomaticTelephoneStation.EventArgs;
 using AutomaticTelephoneStation.PhoneNumbers;
-using AutomaticTelephoneStation.TariffPlans;
 
 namespace AutomaticTelephoneStation.Phones
 {

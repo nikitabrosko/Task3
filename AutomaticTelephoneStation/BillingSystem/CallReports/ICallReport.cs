@@ -1,6 +1,6 @@
 ﻿using AutomaticTelephoneStation.PhoneNumbers;
 
-namespace AutomaticTelephoneStation.CallReports
+namespace AutomaticTelephoneStation.BillingSystem.CallReports
 {
     public interface ICallReport
     {

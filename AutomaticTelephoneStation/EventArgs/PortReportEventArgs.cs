@@ -1,5 +1,5 @@
 ﻿using System;
-using AutomaticTelephoneStation.CallReports;
+using AutomaticTelephoneStation.BillingSystem.CallReports;
 
 namespace AutomaticTelephoneStation.EventArgs
 {

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
-using AutomaticTelephoneStation.CallReports;
+using AutomaticTelephoneStation.BillingSystem.CallReports;
+using AutomaticTelephoneStation.BillingSystem.TariffPlans;
 using AutomaticTelephoneStation.PhoneNumbers;
 using AutomaticTelephoneStation.PhoneNumbers.OperatorCodes;
 using AutomaticTelephoneStation.PhoneNumbers.PhoneNumbers;
-using AutomaticTelephoneStation.TariffPlans;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AutomaticTelephoneStationTests.CallReportsTests

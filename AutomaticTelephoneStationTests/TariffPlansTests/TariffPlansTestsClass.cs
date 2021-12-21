@@ -1,4 +1,4 @@
-﻿using AutomaticTelephoneStation.TariffPlans;
+﻿using AutomaticTelephoneStation.BillingSystem.TariffPlans;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AutomaticTelephoneStationTests.TariffPlansTests

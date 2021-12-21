@@ -1,4 +1,4 @@
-﻿namespace AutomaticTelephoneStation.TariffPlans
+﻿namespace AutomaticTelephoneStation.BillingSystem.TariffPlans
 {
     public class HighTariffPlan : TariffPlan 
     {

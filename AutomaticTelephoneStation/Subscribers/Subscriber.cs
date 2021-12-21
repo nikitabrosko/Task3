@@ -1,9 +1,7 @@
 ﻿using System;
-using AutomaticTelephoneStation.CallReports;
 using AutomaticTelephoneStation.PhoneNumbers;
 using AutomaticTelephoneStation.Phones;
 using AutomaticTelephoneStation.Ports;
-using AutomaticTelephoneStation.TariffPlans;
 
 namespace AutomaticTelephoneStation.Subscribers
 {

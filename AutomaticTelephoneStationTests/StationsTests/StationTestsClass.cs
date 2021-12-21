@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using AutomaticTelephoneStation.BillingSystem.TariffPlans;
 using AutomaticTelephoneStation.Calls;
 using AutomaticTelephoneStation.EventArgs;
 using AutomaticTelephoneStation.PhoneNumbers;
@@ -7,7 +8,6 @@ using AutomaticTelephoneStation.PhoneNumbers.PhoneNumbers;
 using AutomaticTelephoneStation.Phones;
 using AutomaticTelephoneStation.Ports;
 using AutomaticTelephoneStation.Stations;
-using AutomaticTelephoneStation.TariffPlans;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AutomaticTelephoneStationTests.StationsTests

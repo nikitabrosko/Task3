@@ -1,11 +1,11 @@
-﻿using AutomaticTelephoneStation.PhoneNumbers;
+﻿using AutomaticTelephoneStation.BillingSystem.TariffPlans;
+using AutomaticTelephoneStation.PhoneNumbers;
 using AutomaticTelephoneStation.PhoneNumbers.OperatorCodes;
 using AutomaticTelephoneStation.PhoneNumbers.PhoneNumbers;
 using AutomaticTelephoneStation.Phones;
 using AutomaticTelephoneStation.Ports;
 using AutomaticTelephoneStation.Stations;
 using AutomaticTelephoneStation.Subscribers;
-using AutomaticTelephoneStation.TariffPlans;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 

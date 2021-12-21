@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
+using AutomaticTelephoneStation.BillingSystem.TariffPlans;
 using AutomaticTelephoneStation.PhoneNumbers.OperatorCodes;
 using AutomaticTelephoneStation.PhoneNumbers.PhoneNumbers;
 using AutomaticTelephoneStation.PhoneNumbersRepositories;
-using AutomaticTelephoneStation.TariffPlans;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AutomaticTelephoneStationTests.PhoneNumbersRepositoriesTests
