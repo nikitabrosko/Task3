@@ -10,6 +10,7 @@ namespace AutomaticTelephoneStation.Ports
         event EventHandler<StationCallingEventArgs> IncomingCall;
         event EventHandler<StationCallingEventArgs> CallChangeState;
         event EventHandler<ResponseCallEventArgs> ResponseFromStation;
+        event EventHandler<StationReportEventArgs> CallReport;
         PortState State { get; }
         ConnectionState ConnectionState { get; }
         IPhone Phone { get; }
@@ -18,5 +19,6 @@ namespace AutomaticTelephoneStation.Ports
         void OnConnectionChange(object sender, ConnectionStateEventArgs args);
         void OnPhoneCallingByStation(object sender, StationCallingEventArgs args);
         void OnCallChangeStateFromPhone(object sender, StationCallingEventArgs args);
+        void OnCallReportFromStation(object sender, StationReportEventArgs args);
     }
 }

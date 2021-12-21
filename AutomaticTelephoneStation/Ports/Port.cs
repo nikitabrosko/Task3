@@ -1,6 +1,5 @@
 ﻿using System;
 using AutomaticTelephoneStation.EventArgs;
-using AutomaticTelephoneStation.PhoneNumbers;
 using AutomaticTelephoneStation.Phones;
 using AutomaticTelephoneStation.Stations;
 
@@ -12,6 +11,7 @@ namespace AutomaticTelephoneStation.Ports
         public event EventHandler<StationCallingEventArgs> IncomingCall;
         public event EventHandler<StationCallingEventArgs> CallChangeState;
         public event EventHandler<ResponseCallEventArgs> ResponseFromStation;
+        public event EventHandler<StationReportEventArgs> CallReport;
 
         public PortState State { get; private set; }
 
@@ -26,6 +26,11 @@ namespace AutomaticTelephoneStation.Ports
                 throw new ArgumentNullException(nameof(phone));
             }
 
+            if (station is null)
+            {
+                throw new ArgumentNullException(nameof(station));
+            }
+
             Phone = phone;
             State = PortState.Free;
             ConnectionState = ConnectionState.Disconnected;
@@ -33,10 +38,16 @@ namespace AutomaticTelephoneStation.Ports
             Phone.OutgoingCall += OnPhoneStartingCall;
             Phone.ChangeConnection += OnConnectionChange;
             Phone.CallChangeState += OnCallChangeStateFromPhone;
+
+            CallReport += Phone.OnCallReportFromPort;
             IncomingCall += Phone.OnIncomingCall;
-            ResponseFromStation += Phone.OnResponseFromStation;
+            CallChangeState += station.OnCallChangeState;
+            ResponseFromStation += Phone.OnResponseFromPort;
             OutgoingCall += station.OnPhoneStartingCall;
             station.ResponseFromCall += OnResponseFromCall;
+            station.CallReport += OnCallReportFromStation;
+
+            station.PortController.AddPort(this);
         }
 
         public void OnPhoneStartingCall(object sender, StartingCallEventArgs args)
@@ -83,6 +94,11 @@ namespace AutomaticTelephoneStation.Ports
             OnCallChangeState(sender, args);
         }
 
+        public void OnCallReportFromStation(object sender, StationReportEventArgs args)
+        {
+            OnCallReport(sender, args);
+        }
+
         protected virtual void OnOutgoingCall(object sender, StartingCallEventArgs args)
         {
             OutgoingCall?.Invoke(sender, args);
@@ -101,6 +117,11 @@ namespace AutomaticTelephoneStation.Ports
         protected virtual void OnResponseFromStation(object sender, ResponseCallEventArgs args)
         {
             ResponseFromStation?.Invoke(sender, args);
+        }
+
+        protected virtual void OnCallReport(object sender, StationReportEventArgs args)
+        {
+            CallReport?.Invoke(sender, args);
         }
     }
 }
