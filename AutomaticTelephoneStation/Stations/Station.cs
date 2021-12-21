@@ -32,21 +32,21 @@ namespace AutomaticTelephoneStation.Stations
 
         public void OnPhoneStartingCall(object sender, StartingCallEventArgs args)
         {
-            if (!args.TargetPhoneNumber.Number.StartsWith(string.Concat("+", ((int)_countryCode).ToString())) 
-                || !args.SourcePhoneNumber.Number.StartsWith(string.Concat("+", ((int)_countryCode).ToString())))
+            if (args.TargetPhoneNumber.Number.StartsWith(string.Concat("+", ((int)_countryCode).ToString())) 
+                && args.SourcePhoneNumber.Number.StartsWith(string.Concat("+", ((int)_countryCode).ToString())))
+            {
+                var call = new Call(args.SourcePhoneNumber, args.TargetPhoneNumber);
+
+
+                FindPortViaPhoneNumber(args.TargetPhoneNumber)
+                    .OnPhoneCallingByStation(sender, new StationCallingEventArgs(call));
+
+                _waitingCalls.Add(call);
+            }
+            else
             {
                 OnResponseFromCall(this, new ResponseCallEventArgs(CallState.IsEnd));
-
-                return;
             }
-
-            var call = new Call(args.SourcePhoneNumber, args.TargetPhoneNumber);
-
-            
-            FindPortViaPhoneNumber(args.TargetPhoneNumber)
-                .OnPhoneCallingByStation(sender, new StationCallingEventArgs(call));
-
-            _waitingCalls.Add(call);
         }
 
         public void OnCallChangeState(object sender, StationCallingEventArgs args)
@@ -70,11 +70,6 @@ namespace AutomaticTelephoneStation.Stations
             }
             else if (_inProgressCalls.Contains(args.Call))
             {
-                if (args.Call.CallState is CallState.IsEnd)
-                {
-                    // Billing system coming soon
-                }
-
                 _inProgressCalls.Remove(args.Call);
 
                 OnResponseFromCall(sender, new ResponseCallEventArgs(CallState.IsEnd));
