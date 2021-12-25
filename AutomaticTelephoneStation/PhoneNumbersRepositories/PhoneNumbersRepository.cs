@@ -6,7 +6,7 @@ using AutomaticTelephoneStation.PhoneNumbers;
 
 namespace AutomaticTelephoneStation.PhoneNumbersRepositories
 {
-    public class PhoneNumbersRepository
+    public class PhoneNumbersRepository : IPhoneNumbersRepository
     {
         private readonly IList<IPhoneNumber> _phoneNumbers = new List<IPhoneNumber>();
 
