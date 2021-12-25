@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutomaticTelephoneStation",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutomaticTelephoneStationTests", "AutomaticTelephoneStationTests\AutomaticTelephoneStationTests.csproj", "{9BAA6891-109C-4DCB-9045-2482E5F9C0D5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutomaticTelephoneStationConsole", "AutomaticTelephoneStationConsole\AutomaticTelephoneStationConsole.csproj", "{7F284B3E-10FD-4B97-9D79-4EDF656BF9AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{9BAA6891-109C-4DCB-9045-2482E5F9C0D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9BAA6891-109C-4DCB-9045-2482E5F9C0D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9BAA6891-109C-4DCB-9045-2482E5F9C0D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F284B3E-10FD-4B97-9D79-4EDF656BF9AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F284B3E-10FD-4B97-9D79-4EDF656BF9AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F284B3E-10FD-4B97-9D79-4EDF656BF9AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F284B3E-10FD-4B97-9D79-4EDF656BF9AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
