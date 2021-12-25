@@ -68,6 +68,8 @@ namespace AutomaticTelephoneStation.Ports
                 State = PortState.Busy;
                 OnIncomingCall(this, args);
             }
+
+            OnIncomingCall(this, args);
         }
 
         public void OnResponseFromCall(object sender, ResponseCallEventArgs args)
@@ -102,7 +104,8 @@ namespace AutomaticTelephoneStation.Ports
                 OnCallReport(sender, new PortReportEventArgs(
                     new CallerCallReport(args.CallReport.Caller, args.CallReport.Receiver, args.CallReport.Duration)));
             }
-            else
+            
+            if (args.CallReport.Receiver.Number.Equals(Phone.PhoneNumber.Number))
             {
                 OnCallReport(sender, new PortReportEventArgs(
                     new ReceiverCallReport(args.CallReport.Caller, args.CallReport.Duration)));

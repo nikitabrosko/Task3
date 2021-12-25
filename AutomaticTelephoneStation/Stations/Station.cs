@@ -37,16 +37,32 @@ namespace AutomaticTelephoneStation.Stations
             {
                 var call = new Call(args.SourcePhoneNumber, args.TargetPhoneNumber);
 
+                if (!CheckForBusyNumbers(args.SourcePhoneNumber) && !CheckForBusyNumbers(args.TargetPhoneNumber))
+                {
+                    FindPortViaPhoneNumber(args.TargetPhoneNumber)
+                        .OnPhoneCallingByStation(sender, new StationCallingEventArgs(call));
 
-                FindPortViaPhoneNumber(args.TargetPhoneNumber)
-                    .OnPhoneCallingByStation(sender, new StationCallingEventArgs(call));
+                    FindPortViaPhoneNumber(args.SourcePhoneNumber)
+                        .OnPhoneCallingByStation(sender, new StationCallingEventArgs(call));
 
-                _waitingCalls.Add(call);
+                    _waitingCalls.Add(call);
+                }
             }
             else
             {
                 OnResponseFromCall(this, new ResponseCallEventArgs(CallState.IsEnd));
             }
+        }
+
+        private bool CheckForBusyNumbers(IPhoneNumber phoneNumber)
+        {
+            var allCalls = WaitingCalls.Union(InProgressCalls);
+            var busyPhoneNumbers = allCalls
+                .Select(c => c.Caller.Number)
+                .Union(allCalls
+                    .Select(c => c.Receiver.Number));
+
+            return busyPhoneNumbers.Contains(phoneNumber.Number);
         }
 
         public void OnCallChangeState(object sender, StationCallingEventArgs args)

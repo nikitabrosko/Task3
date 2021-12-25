@@ -10,12 +10,7 @@ namespace AutomaticTelephoneStation.BillingSystem.CallReports
 
         public ReceiverCallReport(IPhoneNumber callerPhoneNumber, int callDuration)
         {
-            if (callerPhoneNumber is null)
-            {
-                throw new ArgumentNullException(nameof(callerPhoneNumber));
-            }
-
-            PhoneNumber = callerPhoneNumber;
+            PhoneNumber = callerPhoneNumber ?? throw new ArgumentNullException(nameof(callerPhoneNumber));
             CallDuration = callDuration;
         }
     }

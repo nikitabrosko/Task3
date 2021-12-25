@@ -38,6 +38,8 @@ namespace AutomaticTelephoneStation.Phones
             {
                 PhoneCallState = PhoneCallState.InProgress;
 
+                _call = new Call(PhoneNumber, phoneNumber) { CallState = CallState.IsWaiting };
+
                 OnOutgoingCall(this, new StartingCallEventArgs(PhoneNumber, phoneNumber));
             }
         }
@@ -58,9 +60,17 @@ namespace AutomaticTelephoneStation.Phones
 
         public void OnIncomingCall(object sender, StationCallingEventArgs args)
         {
-            PhoneCallState = PhoneCallState.StartCalling;
+            if (!PhoneCallState.Equals(PhoneCallState.InProgress))
+            {
+                PhoneCallState = PhoneCallState.StartCalling;
 
-            _call = args.Call;
+                _call = args.Call;
+            }
+
+            if (_call.Receiver.Equals(args.Call.Receiver) && PhoneNumber.Equals(args.Call.Caller))
+            {
+                _call = args.Call;
+            }
         }
 
         public void OnResponseFromPort(object sender, ResponseCallEventArgs args)
