@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutomaticTelephoneStation.BillingSystem.CallReports;
 using AutomaticTelephoneStation.BillingSystem.TariffPlans;
@@ -58,7 +59,23 @@ namespace AutomaticTelephoneStationTests.BillingSystemTests.CallReportsTests.Fil
             Assert.IsTrue(expectedCalls.SequenceEqual(actualCalls));
         }
 
-        public IPhone GetPhone()
+        [TestMethod]
+        public void TestFilterByCallDateMethod()
+        {
+            var phoneObject = GetPhone();
+
+            var expectedCalls = new List<ICallReport>
+            {
+                phoneObject.CallReports.Calls.ToList()[0]
+            };
+            var actualCalls = phoneObject.CallReports
+                .FilterByCallDate(phoneObject.CallReports.Calls.First().CallDate)
+                .ToList();
+
+            Assert.IsTrue(expectedCalls.SequenceEqual(actualCalls));
+        }
+
+        public static IPhone GetPhone()
         {
             var phoneNumberObjectFirst =
                 new BelarusPhoneNumber(BelarusOperatorCode.A1, new LowTariffPlan(), "1234567");
@@ -74,21 +91,24 @@ namespace AutomaticTelephoneStationTests.BillingSystemTests.CallReportsTests.Fil
             phoneObject.CallReports.AddCall(new CallerCallReport(
                 phoneObject.PhoneNumber,
                 phoneNumberObjectSecond,
+                DateTime.Now,
                 10));
 
             phoneObject.CallReports.AddCall(new CallerCallReport(
                 phoneObject.PhoneNumber,
                 phoneNumberObjectThird,
+                DateTime.Now,
                 15));
 
             phoneObject.CallReports.AddCall(new CallerCallReport(
                 phoneObject.PhoneNumber,
                 phoneNumberObjectFourth,
+                DateTime.Now,
                 60));
 
-            phoneObject.CallReports.AddCall(new ReceiverCallReport(phoneNumberObjectSecond, 20));
-            phoneObject.CallReports.AddCall(new ReceiverCallReport(phoneNumberObjectThird, 10));
-            phoneObject.CallReports.AddCall(new ReceiverCallReport(phoneNumberObjectFourth, 90));
+            phoneObject.CallReports.AddCall(new ReceiverCallReport(phoneNumberObjectSecond, DateTime.Now, 20));
+            phoneObject.CallReports.AddCall(new ReceiverCallReport(phoneNumberObjectThird, DateTime.Now, 10));
+            phoneObject.CallReports.AddCall(new ReceiverCallReport(phoneNumberObjectFourth, DateTime.Now, 90));
 
             return phoneObject;
         }

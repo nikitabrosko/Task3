@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using AutomaticTelephoneStation.BillingSystem.CallReports;
 using AutomaticTelephoneStation.BillingSystem.TariffPlans;
 using AutomaticTelephoneStation.PhoneNumbers.OperatorCodes;
@@ -19,7 +20,8 @@ namespace AutomaticTelephoneStationTests.BillingSystemTests.CallReportsTests.Sor
             var expectedCalls = phoneObject.CallReports.Calls
                 .OrderBy(cr => cr.CallDuration)
                 .ToList();
-            var actualCalls = phoneObject.CallReports.SortByDuration(SortingParameter.Ascending).ToList();
+            phoneObject.CallReports.SortByDuration(SortingParameter.Ascending);
+            var actualCalls = phoneObject.CallReports.Calls.ToList();
 
             Assert.IsTrue(expectedCalls.SequenceEqual(actualCalls));
         }
@@ -32,7 +34,8 @@ namespace AutomaticTelephoneStationTests.BillingSystemTests.CallReportsTests.Sor
             var expectedCalls = phoneObject.CallReports.Calls
                 .OrderByDescending(cr => cr.CallDuration)
                 .ToList();
-            var actualCalls = phoneObject.CallReports.SortByDuration(SortingParameter.Descending).ToList();
+            phoneObject.CallReports.SortByDuration(SortingParameter.Descending);
+            var actualCalls = phoneObject.CallReports.Calls.ToList();
 
             Assert.IsTrue(expectedCalls.SequenceEqual(actualCalls));
         }
@@ -46,7 +49,8 @@ namespace AutomaticTelephoneStationTests.BillingSystemTests.CallReportsTests.Sor
                 .OfType<CallerCallReport>()
                 .OrderBy(cr => cr.Fee)
                 .ToList();
-            var actualCalls = phoneObject.CallReports.SortByWorth(SortingParameter.Ascending).ToList();
+            phoneObject.CallReports.SortByWorth(SortingParameter.Ascending);
+            var actualCalls = phoneObject.CallReports.Calls.ToList();
 
             Assert.IsTrue(expectedCalls.SequenceEqual(actualCalls));
         }
@@ -60,7 +64,8 @@ namespace AutomaticTelephoneStationTests.BillingSystemTests.CallReportsTests.Sor
                 .OfType<CallerCallReport>()
                 .OrderByDescending(cr => cr.Fee)
                 .ToList();
-            var actualCalls = phoneObject.CallReports.SortByWorth(SortingParameter.Descending).ToList();
+            phoneObject.CallReports.SortByWorth(SortingParameter.Descending);
+            var actualCalls = phoneObject.CallReports.Calls.ToList();
 
             Assert.IsTrue(expectedCalls.SequenceEqual(actualCalls));
         }
@@ -73,7 +78,8 @@ namespace AutomaticTelephoneStationTests.BillingSystemTests.CallReportsTests.Sor
             var expectedCalls = phoneObject.CallReports.Calls
                 .OrderBy(cr => cr.PhoneNumber.Number)
                 .ToList();
-            var actualCalls = phoneObject.CallReports.SortByPhoneNumber(SortingParameter.Ascending).ToList();
+            phoneObject.CallReports.SortByPhoneNumber(SortingParameter.Ascending);
+            var actualCalls = phoneObject.CallReports.Calls.ToList();
 
             Assert.IsTrue(expectedCalls.SequenceEqual(actualCalls));
         }
@@ -86,12 +92,41 @@ namespace AutomaticTelephoneStationTests.BillingSystemTests.CallReportsTests.Sor
             var expectedCalls = phoneObject.CallReports.Calls
                 .OrderByDescending(cr => cr.PhoneNumber.Number)
                 .ToList();
-            var actualCalls = phoneObject.CallReports.SortByPhoneNumber(SortingParameter.Descending).ToList();
+            phoneObject.CallReports.SortByPhoneNumber(SortingParameter.Descending);
+            var actualCalls = phoneObject.CallReports.Calls.ToList();
 
             Assert.IsTrue(expectedCalls.SequenceEqual(actualCalls));
         }
 
-        public IPhone GetPhone()
+        [TestMethod]
+        public void TestSortByCallDateMethodSortedParameterIsAscending()
+        {
+            var phoneObject = GetPhone();
+
+            var expectedCalls = phoneObject.CallReports.Calls
+                .OrderBy(cr => cr.CallDate)
+                .ToList();
+            phoneObject.CallReports.SortByCallDate(SortingParameter.Ascending);
+            var actualCalls = phoneObject.CallReports.Calls.ToList();
+
+            Assert.IsTrue(expectedCalls.SequenceEqual(actualCalls));
+        }
+
+        [TestMethod]
+        public void TestSortByCallDateMethodSortedParameterIsDescending()
+        {
+            var phoneObject = GetPhone();
+
+            var expectedCalls = phoneObject.CallReports.Calls
+                .OrderByDescending(cr => cr.CallDate)
+                .ToList();
+            phoneObject.CallReports.SortByCallDate(SortingParameter.Descending);
+            var actualCalls = phoneObject.CallReports.Calls.ToList();
+
+            Assert.IsTrue(expectedCalls.SequenceEqual(actualCalls));
+        }
+
+        public static IPhone GetPhone()
         {
             var phoneNumberObjectFirst =
                 new BelarusPhoneNumber(BelarusOperatorCode.A1, new LowTariffPlan(), "1234567");
@@ -107,21 +142,24 @@ namespace AutomaticTelephoneStationTests.BillingSystemTests.CallReportsTests.Sor
             phoneObject.CallReports.AddCall(new CallerCallReport(
                 phoneObject.PhoneNumber,
                 phoneNumberObjectSecond,
+                DateTime.Now,
                 10));
 
             phoneObject.CallReports.AddCall(new CallerCallReport(
                 phoneObject.PhoneNumber,
                 phoneNumberObjectThird,
+                DateTime.Now,
                 15));
 
             phoneObject.CallReports.AddCall(new CallerCallReport(
                 phoneObject.PhoneNumber,
                 phoneNumberObjectFourth,
+                DateTime.Now,
                 60));
 
-            phoneObject.CallReports.AddCall(new ReceiverCallReport(phoneNumberObjectSecond, 20));
-            phoneObject.CallReports.AddCall(new ReceiverCallReport(phoneNumberObjectThird, 10));
-            phoneObject.CallReports.AddCall(new ReceiverCallReport(phoneNumberObjectFourth, 90));
+            phoneObject.CallReports.AddCall(new ReceiverCallReport(phoneNumberObjectSecond, DateTime.Now, 20));
+            phoneObject.CallReports.AddCall(new ReceiverCallReport(phoneNumberObjectThird, DateTime.Now, 10));
+            phoneObject.CallReports.AddCall(new ReceiverCallReport(phoneNumberObjectFourth, DateTime.Now, 90));
 
             return phoneObject;
         }

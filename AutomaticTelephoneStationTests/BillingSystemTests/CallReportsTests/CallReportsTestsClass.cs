@@ -20,13 +20,15 @@ namespace AutomaticTelephoneStationTests.BillingSystemTests.CallReportsTests
             var receiverPhoneNumberObject =
                 new BelarusPhoneNumber(BelarusOperatorCode.A1, new LowTariffPlan(), "7654321");
             var callDuration = 10;
+            var callDate = DateTime.Now;
             var expectedFee = 50M;
 
             var callerCallReportObject =
-                new CallerCallReport(callerPhoneNumberObject, receiverPhoneNumberObject, callDuration);
+                new CallerCallReport(callerPhoneNumberObject, receiverPhoneNumberObject, callDate, callDuration);
 
             Assert.IsTrue(receiverPhoneNumberObject.Equals(callerCallReportObject.PhoneNumber)
                           && callDuration.Equals(callerCallReportObject.CallDuration)
+                          && callDate.Equals(callerCallReportObject.CallDate)
                           && expectedFee.Equals(callerCallReportObject.Fee));
         }
 
@@ -37,10 +39,9 @@ namespace AutomaticTelephoneStationTests.BillingSystemTests.CallReportsTests
             var receiverPhoneNumberObject =
                 new BelarusPhoneNumber(BelarusOperatorCode.A1, new LowTariffPlan(), "7654321");
             var callDuration = 10;
-            var expectedFee = 50M;
 
             Assert.ThrowsException<ArgumentNullException>(() =>
-                new CallerCallReport(callerPhoneNumberObject, receiverPhoneNumberObject, callDuration));
+                new CallerCallReport(callerPhoneNumberObject, receiverPhoneNumberObject, DateTime.Now, callDuration));
         }
 
         [TestMethod]
@@ -50,10 +51,9 @@ namespace AutomaticTelephoneStationTests.BillingSystemTests.CallReportsTests
                 new BelarusPhoneNumber(BelarusOperatorCode.A1, new LowTariffPlan(), "1234567");
             IPhoneNumber receiverPhoneNumberObject = null;
             var callDuration = 10;
-            var expectedFee = 50M;
 
             Assert.ThrowsException<ArgumentNullException>(() =>
-                new CallerCallReport(callerPhoneNumberObject, receiverPhoneNumberObject, callDuration));
+                new CallerCallReport(callerPhoneNumberObject, receiverPhoneNumberObject, DateTime.Now, callDuration));
         }
 
         [TestMethod]
@@ -61,12 +61,14 @@ namespace AutomaticTelephoneStationTests.BillingSystemTests.CallReportsTests
         {
             var callerPhoneNumberObject =
                 new BelarusPhoneNumber(BelarusOperatorCode.A1, new LowTariffPlan(), "1234567");
+            var callDate = DateTime.Now;
             var callDuration = 10;
 
             var receiverCallReportObject =
-                new ReceiverCallReport(callerPhoneNumberObject, callDuration);
+                new ReceiverCallReport(callerPhoneNumberObject, callDate, callDuration);
 
             Assert.IsTrue(callerPhoneNumberObject.Equals(receiverCallReportObject.PhoneNumber)
+                          && callDate.Equals(receiverCallReportObject.CallDate)
                           && callDuration.Equals(receiverCallReportObject.CallDuration));
         }
 
@@ -77,7 +79,7 @@ namespace AutomaticTelephoneStationTests.BillingSystemTests.CallReportsTests
             var callDuration = 10;
 
             Assert.ThrowsException<ArgumentNullException>(() =>
-                new ReceiverCallReport(callerPhoneNumberObject, callDuration));
+                new ReceiverCallReport(callerPhoneNumberObject, DateTime.Now, callDuration));
         }
 
         [TestMethod]
@@ -87,10 +89,11 @@ namespace AutomaticTelephoneStationTests.BillingSystemTests.CallReportsTests
 
             var callerPhoneNumberObject =
                 new BelarusPhoneNumber(BelarusOperatorCode.A1, new LowTariffPlan(), "1234567");
+            var callDate = DateTime.Now;
             var callDuration = 10;
 
             var receiverCallReportObject =
-                new ReceiverCallReport(callerPhoneNumberObject, callDuration);
+                new ReceiverCallReport(callerPhoneNumberObject, callDate, callDuration);
 
             callReportRepositoryObject.AddCall(receiverCallReportObject);
 

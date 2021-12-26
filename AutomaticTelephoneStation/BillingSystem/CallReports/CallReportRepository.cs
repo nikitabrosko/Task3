@@ -8,7 +8,7 @@ namespace AutomaticTelephoneStation.BillingSystem.CallReports
 {
     public class CallReportRepository : ICallReportRepository
     {
-        private readonly IList<ICallReport> _calls = new List<ICallReport>();
+        private IList<ICallReport> _calls = new List<ICallReport>();
 
         public IEnumerable<ICallReport> Calls => new ReadOnlyCollection<ICallReport>(_calls);
 
@@ -37,42 +37,80 @@ namespace AutomaticTelephoneStation.BillingSystem.CallReports
             return Calls.Where(cr => cr.PhoneNumber.Equals(phoneNumber));
         }
 
-        public IEnumerable<ICallReport> SortByDuration(SortingParameter sortingParameter)
+        public IEnumerable<ICallReport> FilterByCallDate(DateTime callDate)
+        {
+            return Calls.Where(cr => cr.CallDate.Equals(callDate));
+        }
+
+        public void SortByDuration(SortingParameter sortingParameter)
         {
             switch (sortingParameter)
             {
                 case SortingParameter.Ascending:
-                    return Calls.OrderBy(cr => cr.CallDuration);
+                    _calls = Calls
+                        .OrderBy(cr => cr.CallDuration)
+                        .ToList();
+                    break;
                 case SortingParameter.Descending:
-                    return Calls.OrderByDescending(cr => cr.CallDuration);
-                default:
-                    throw new ArgumentException("Unexpected parameter!");
+                    _calls = Calls
+                        .OrderByDescending(cr => cr.CallDuration)
+                        .ToList();
+                    break;
             }
         }
 
-        public IEnumerable<ICallReport> SortByWorth(SortingParameter sortingParameter)
+        public void SortByWorth(SortingParameter sortingParameter)
         {
             switch (sortingParameter)
             {
                 case SortingParameter.Ascending:
-                    return Calls.OfType<CallerCallReport>().OrderBy(cr => cr.Fee);
+                    _calls = Calls
+                        .OfType<CallerCallReport>()
+                        .OrderBy(cr => cr.Fee)
+                        .Cast<ICallReport>()
+                        .ToList();
+                    break;
                 case SortingParameter.Descending:
-                    return Calls.OfType<CallerCallReport>().OrderByDescending(cr => cr.Fee);
-                default:
-                    throw new ArgumentException("Unexpected parameter!");
+                    _calls = Calls
+                        .OfType<CallerCallReport>()
+                        .OrderByDescending(cr => cr.Fee)
+                        .Cast<ICallReport>()
+                        .ToList();
+                    break;
             }
         }
 
-        public IEnumerable<ICallReport> SortByPhoneNumber(SortingParameter sortingParameter)
+        public void SortByPhoneNumber(SortingParameter sortingParameter)
         {
             switch (sortingParameter)
             {
                 case SortingParameter.Ascending:
-                    return Calls.OrderBy(cr => cr.PhoneNumber.Number);
+                    _calls = Calls
+                        .OrderBy(cr => cr.PhoneNumber.Number)
+                        .ToList();
+                    break;
                 case SortingParameter.Descending:
-                    return Calls.OrderByDescending(cr => cr.PhoneNumber.Number);
-                default:
-                    throw new ArgumentException("Unexpected parameter!");
+                    _calls = Calls
+                        .OrderByDescending(cr => cr.PhoneNumber.Number)
+                        .ToList();
+                    break;
+            }
+        }
+
+        public void SortByCallDate(SortingParameter sortingParameter)
+        {
+            switch (sortingParameter)
+            {
+                case SortingParameter.Ascending:
+                    _calls = Calls
+                        .OrderBy(cr => cr.CallDate)
+                        .ToList();
+                    break;
+                case SortingParameter.Descending:
+                    _calls = Calls
+                        .OrderByDescending(cr => cr.CallDate)
+                        .ToList();
+                    break;
             }
         }
     }
