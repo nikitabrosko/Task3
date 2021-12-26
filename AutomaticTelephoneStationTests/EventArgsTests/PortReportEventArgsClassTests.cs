@@ -17,6 +17,7 @@ namespace AutomaticTelephoneStationTests.EventArgsTests
             var callReportObject = new CallerCallReport(
                 new BelarusPhoneNumber(BelarusOperatorCode.A1, new LowTariffPlan(), "1234567"),
                 new BelarusPhoneNumber(BelarusOperatorCode.A1, new LowTariffPlan(), "7654321"),
+                DateTime.Now,
                 10);
 
             var portReportEventArgs = new PortReportEventArgs(callReportObject);
