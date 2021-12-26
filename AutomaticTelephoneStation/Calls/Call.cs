@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using AutomaticTelephoneStation.PhoneNumbers;
 
 namespace AutomaticTelephoneStation.Calls
@@ -13,6 +14,8 @@ namespace AutomaticTelephoneStation.Calls
 
         public CallState CallState { get; set; }
 
+        public DateTime CallDate { get; }
+
         public int Duration { get; protected set; }
 
         public Call(IPhoneNumber caller, IPhoneNumber receiver)
@@ -20,6 +23,7 @@ namespace AutomaticTelephoneStation.Calls
             Caller = caller;
             Receiver = receiver;
             CallState = CallState.IsWaiting;
+            CallDate = DateTime.Now;
             Duration = 0;
         }
 

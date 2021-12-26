@@ -1,5 +1,5 @@
-﻿using AutomaticTelephoneStation.PhoneNumbers;
-using AutomaticTelephoneStation.Subscribers;
+﻿using System;
+using AutomaticTelephoneStation.PhoneNumbers;
 
 namespace AutomaticTelephoneStation.Calls
 {
@@ -8,6 +8,7 @@ namespace AutomaticTelephoneStation.Calls
         IPhoneNumber Caller { get; }
         IPhoneNumber Receiver { get; }
         CallState CallState { get; set; }
+        DateTime CallDate { get; }
         int Duration { get; }
         void StartStopwatch();
         void StopStopwatch();
