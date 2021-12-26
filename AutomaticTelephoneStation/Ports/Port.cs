@@ -34,7 +34,7 @@ namespace AutomaticTelephoneStation.Ports
 
             Phone = phone;
             State = PortState.Free;
-            ConnectionState = ConnectionState.Disconnected;
+            ConnectionState = ConnectionState.Connected;
 
             Phone.OutgoingCall += OnPhoneStartingCall;
             Phone.ChangeConnection += OnConnectionChange;
@@ -102,13 +102,13 @@ namespace AutomaticTelephoneStation.Ports
             if (args.CallReport.Caller.Number.Equals(Phone.PhoneNumber.Number))
             {
                 OnCallReport(sender, new PortReportEventArgs(
-                    new CallerCallReport(args.CallReport.Caller, args.CallReport.Receiver, args.CallReport.Duration)));
+                    new CallerCallReport(args.CallReport.Caller, args.CallReport.Receiver, args.CallReport.CallDate, args.CallReport.Duration)));
             }
             
             if (args.CallReport.Receiver.Number.Equals(Phone.PhoneNumber.Number))
             {
                 OnCallReport(sender, new PortReportEventArgs(
-                    new ReceiverCallReport(args.CallReport.Caller, args.CallReport.Duration)));
+                    new ReceiverCallReport(args.CallReport.Caller, args.CallReport.CallDate, args.CallReport.Duration)));
             }
         }
 

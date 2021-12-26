@@ -24,7 +24,7 @@ namespace AutomaticTelephoneStationTests.PortsTests
             var phoneObject = new Phone(new BelarusPhoneNumber(BelarusOperatorCode.Mts, new LowTariffPlan(), "1234567"));
             var actualPortObject = new Port(phoneObject, stationObject);
 
-            Assert.IsTrue(actualPortObject.ConnectionState.Equals(ConnectionState.Disconnected) 
+            Assert.IsTrue(actualPortObject.ConnectionState.Equals(ConnectionState.Connected) 
                           && actualPortObject.State.Equals(PortState.Free)
                           && actualPortObject.Phone.Equals(phoneObject));
         }

@@ -26,7 +26,7 @@ namespace AutomaticTelephoneStation.Phones
         {
             PhoneNumber = phoneNumber;
 
-            ConnectionState = ConnectionState.Disconnected;
+            ConnectionState = ConnectionState.Connected;
             PhoneCallState = PhoneCallState.Silence;
 
             CallReports = new CallReportRepository();

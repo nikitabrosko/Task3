@@ -18,7 +18,7 @@ namespace AutomaticTelephoneStationTests.PhoneTests
             var phoneNumberObject = new BelarusPhoneNumber(BelarusOperatorCode.Mts, new LowTariffPlan(), "1234567");
             var phoneObject = new Phone(phoneNumberObject);
 
-            Assert.IsTrue(phoneObject.ConnectionState is ConnectionState.Disconnected
+            Assert.IsTrue(phoneObject.ConnectionState is ConnectionState.Connected
                           && phoneObject.PhoneNumber.Equals(phoneNumberObject)
                           && phoneObject.PhoneCallState.Equals(PhoneCallState.Silence));
         }
